@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Memegen</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<!-- Static navbar -->
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><%= image_tag "logo.png", width: 274, height: 44 %></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+          	<!-- Main nav list items here. -->
+            <!-- <li class="active"><a href="#">Home</a></li> -->
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          <!-- Right nav list items here. -->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <!-- Part 1: Wrap all page content here. -->
+    <div id="wrap">
+
+      <!-- Begin page content -->
+      <div class="container">
+	      <% if content_for?(:page_title) %>
+	        <div class="page-header">
+	          <h1><%= yield :page_title %></h1>
+	        </div>
+	      <% end %>
+        <%= yield %>
+      </div>
+
+      <div id="push"></div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">Your productivity.. it's over 9000! (<%= link_to "context", "http://knowyourmeme.com/memes/its-over-9000"%>)</p>
+      </div>
+    </div>
+</body>
+</html>

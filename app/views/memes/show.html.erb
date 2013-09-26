@@ -1,0 +1,16 @@
+
+<p id="notice"><%= notice %></p>
+
+<%= image_tag "/generated/" + @meme.id.to_s + ".jpg" %>
+<p>
+  <strong>Title:</strong>
+  <%= @meme.title %>
+</p>
+
+<p>
+  <strong>Context:</strong>
+  <%= @meme.context %>
+</p>
+
+<%= link_to 'Edit', edit_meme_path(@meme) %> |
+<%= link_to 'Back', memes_path %>

@@ -1,0 +1,44 @@
+<%= form_for(@meme) do |f| %>
+  <% if @meme.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@meme.errors.count, "error") %> prohibited this meme from being saved:</h2>
+
+      <ul>
+      <% @meme.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <!-- Begin templates. -->
+  <div class="template-container">
+    <% @templates.each do |template| %>
+      <% id = "template_" + template.title %>
+      <input type="radio" name="template" id="<%= id %>" value="<%= template.path %>">
+      <label for="<%= id %>">
+        <%= image_tag getTemplatePath(template), title: template.title %>
+      </label>
+    <% end %>
+  </div>
+  <!-- End templates. -->
+  <div class="field">
+    <%= f.label :title, class: "label" %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :context, class: "label" %><br>
+    <%= f.text_field :context %>
+  </div>
+  <div class="field">
+    <label class="label">Text (top)</label><br>
+    <input type="text" name="content[top]" id="content[top]" />
+  </div>
+  <div class="field">
+    <label class="label">Text (bottom)</label><br>
+    <input type="text" name="content[bottom]" id="content[bottom]" />
+  </div>
+  <div class="actions">
+    <br />
+    <%= f.submit "Create Meme", :class => "btn btn-primary" %>
+  </div>
+<% end %>
