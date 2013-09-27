@@ -1,21 +1,35 @@
+// Orientations.
+var TOP = 0;
+var BOTTOM = 1;
+
 $(function(){
 	// Init canvas
 	var imageCanvas = document.getElementById("imageCanvas");
-	var textCanvas = document.getElementById("textCanvas");
+	var topTextCanvas = document.getElementById("topTextCanvas");
+	var bottomTextCanvas = document.getElementById("bottomTextCanvas");
 	var imageContext = imageCanvas.getContext('2d');
-	var textContext = textCanvas.getContext('2d');
+	var topTextContext = topTextCanvas.getContext('2d');
+	var bottomTextContext = bottomTextCanvas.getContext('2d');
 	var imageObj = new Image();
 	
 	imageObj.onload = function() {
-		imageContext.canvas.width = this.width;
-		textContext.canvas.width = this.width;
-		imageContext.canvas.height = this.height;
-		textContext.canvas.height = this.height;
-		$('.canvas-container').height(this.height);
-		$('.canvas-container').width(this.width);
+		setCanvasDimensions(this);
 		imageContext.drawImage(imageObj, 0, 0);
-		refreshTextCanvas();
+		drawText(bottomTextContext);
+		drawText(topTextContext);
 	};
+
+	// Sets dimensions of canvases to match that of an image.
+	function setCanvasDimensions(img) {
+		imageContext.canvas.width = img.width;
+		topTextContext.canvas.width = img.width;
+		bottomTextContext.canvas.width = img.width;
+		imageContext.canvas.height = img.height;
+		topTextContext.canvas.height = img.height;
+		bottomTextContext.canvas.height = img.height;
+		$('.canvas-container').height(img.height);
+		$('.canvas-container').width(img.width);
+	}
 
 	$('.template').click(function(){
 		imageContext.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
@@ -23,31 +37,38 @@ $(function(){
 	});
 
 	$('input#content\\[top\\]').keyup(function() {
-		var text = this.value.toUpperCase();
-		drawTopText(text);
+		drawText(topTextContext)
 	});
 
+	$('input#content\\[bottom\\]').keyup(function() {
+		drawText(bottomTextContext)
+	});
 
-	function refreshTextCanvas() {
-		var text = $('input#content\\[top\\]').val().toUpperCase();
-		drawTopText(text);
-	}
-
-	function drawTopText(text) {
+	function drawText(context) {
 		if (imageObj.src) {
-			var x = textCanvas.width / 2;
-			var y = 45;
-			textContext.clearRect(0, 0, textCanvas.width, textCanvas.height);
-			textContext.font = 'bold 32pt Helvetica';
-			textContext.textAlign = 'center';
-			textContext.fillStyle = 'white';
-			textContext.strokeStyle = 'black'
-			textContext.lineWidth = 1;
-			wrapText(textContext, text, x, y, textCanvas.width, 38);
+			var x, y, text, orientation;
+			if (context == topTextContext) {
+				text = $('input#content\\[top\\]').val().toUpperCase();
+				x = context.canvas.width / 2;
+				y = 50;
+				orientation = TOP;
+			} else if (context == bottomTextContext) {
+				text = $('input#content\\[bottom\\]').val().toUpperCase();
+				x = context.canvas.width / 2;
+				y = context.canvas.height - 10; 
+				orientation = BOTTOM;
+			}
+			context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+			context.font = 'bold 42pt Helvetica';
+			context.textAlign = 'center';
+			context.fillStyle = 'white';
+			context.strokeStyle = 'black'
+			context.lineWidth = 1;
+			wrapText(context, text, x, y, context.canvas.width, 44, orientation);
 		}
 	}
 
-  	function wrapText(context, text, x, y, maxWidth, lineHeight) {
+  	function wrapText(context, text, x, y, maxWidth, lineHeight, orientation) {
         var words = text.split(' ');
         var line = '';
         var numLines = 0;
@@ -60,7 +81,11 @@ $(function(){
             context.fillText(line, x, y);
             context.strokeText(line, x, y);
             line = words[n] + ' ';
-            y += lineHeight;
+            if (orientation == BOTTOM) {
+	            y -= lineHeight;            	
+            } else {
+            	y += lineHeight;  
+            }
           }
           else {
             line = testLine;
