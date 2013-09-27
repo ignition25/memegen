@@ -2,6 +2,55 @@
 	New meme
 <% end %>
 
-<%= render 'form' %>
+<%= form_for(@meme) do |f| %>
+  <% if @meme.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@meme.errors.count, "error") %> prohibited this meme from being saved:</h2>
 
-<%= link_to 'Back', memes_path %>
+      <ul>
+      <% @meme.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <!-- Begin templates. -->
+  <div class="templates-container">
+    <% @templates.each do |template| %>
+      <% id = "template_" + template.title %>
+      <input type="radio" name="template" id="<%= id %>" value="<%= template.path %>">
+      <label for="<%= id %>">
+        <%= image_tag getTemplatePath(template), title: template.title, class: "template" %>
+      </label>
+    <% end %>
+  </div>
+  <!-- End templates. -->
+  <!-- Begin fields. -->
+  <div class="meme-fields">
+    <div class="field">
+      <%= f.label :title, class: "label label-default" %><br>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.label :context, class: "label label-default" %><br>
+      <%= f.text_field :context %>
+    </div>
+    <div class="field">
+      <label class="label label-default">Text (top)</label><br>
+      <input type="text" name="content[top]" id="content[top]" />
+    </div>
+    <div class="field">
+      <label class="label label-default">Text (bottom)</label><br>
+      <input type="text" name="content[bottom]" id="content[bottom]" />
+    </div>
+    <div class="actions">
+      <br />
+      <%= f.submit "Create Meme", :class => "btn btn-success" %>
+      <a class="btn btn-default" title="Back" href="<%= memes_path %>">Back</a>
+    </div>
+    <!-- End fields -->
+  </div>
+<% end %>
+<div class="canvas-container">
+	<canvas id="imageCanvas" class="meme-canvas"></canvas><canvas id="textCanvas" class="meme-canvas"></canvas>
+</div>

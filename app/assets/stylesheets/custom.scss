@@ -49,9 +49,13 @@ body {
   margin: 20px 0;
 }
 
-.template-container {
+.templates-container {
+  overflow: auto; /* Enable scrolling. */
+  max-height: 300px;
+  margin-bottom: 20px;
   img {
-    width: 20%;
+    max-width: 20%;
+    max-height: 120px;
   }
 
   label {
@@ -62,4 +66,35 @@ body {
     display: none;
   }
 
+  .template {
+    margin: 0 0px 5px 0;
+  }
+
+}
+
+.meme-fields {
+  float: left;
+  margin-right: 40px;
+}
+
+.field {
+  margin-bottom: 5px;
+}
+
+.meme-canvas {
+  position: absolute;
+}
+
+#imageCanvas {
+  z-index: 0;
+}
+
+#textCanvas {
+  z-index: 1;
+}
+
+.canvas-container {
+  position: relative;
+  margin-bottom: 60px;
+  float: left;
 }

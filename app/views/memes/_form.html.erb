@@ -21,24 +21,28 @@
     <% end %>
   </div>
   <!-- End templates. -->
-  <div class="field">
-    <%= f.label :title, class: "label" %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :context, class: "label" %><br>
-    <%= f.text_field :context %>
-  </div>
-  <div class="field">
-    <label class="label">Text (top)</label><br>
-    <input type="text" name="content[top]" id="content[top]" />
-  </div>
-  <div class="field">
-    <label class="label">Text (bottom)</label><br>
-    <input type="text" name="content[bottom]" id="content[bottom]" />
-  </div>
-  <div class="actions">
-    <br />
-    <%= f.submit "Create Meme", :class => "btn btn-primary" %>
+  <!-- Begin fields. -->
+  <div class="meme-fields">
+    <div class="field">
+      <%= f.label :title, class: "label label-default" %><br>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.label :context, class: "label label-default" %><br>
+      <%= f.text_field :context %>
+    </div>
+    <div class="field">
+      <label class="label label-default">Text (top)</label><br>
+      <input type="text" name="content[top]" id="content[top]" />
+    </div>
+    <div class="field">
+      <label class="label label-default">Text (bottom)</label><br>
+      <input type="text" name="content[bottom]" id="content[bottom]" />
+    </div>
+    <div class="actions">
+      <br />
+      <%= f.submit "Create Meme", :class => "btn btn-primary" %>
+    </div>
+    <!-- End fields -->
   </div>
 <% end %>
