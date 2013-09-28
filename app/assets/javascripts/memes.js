@@ -4,8 +4,6 @@ var BOTTOM = 1;
 var imageCanvas, topTextCanvas, bottomTextCanvas, imageContext, topTextContext, bottomTextContext;
 var imageObj = new Image();
 
-$(window).bind('page:change', init);
-
 function init() {
 	// Init canvases.
 	imageCanvas = document.getElementById("imageCanvas");
@@ -39,9 +37,10 @@ function init() {
 	});
 }
 
-$(document).ready(function(){
-	init();
-});
+// For turbolinks.
+$(window).bind('page:change', init);
+
+$(document).ready(init);
 
 imageObj.onload = function() {
 	setCanvasDimensions(this);
