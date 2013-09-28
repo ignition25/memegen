@@ -31,44 +31,24 @@ class MemesController < ApplicationController
     @meme = Meme.new(meme_params)
     meme_id = params[:meme][:id]
     
-    # Get params.
-    template = params[:template]
-    text_bottom = params[:content][:bottom]
-    text_top = params[:content][:top]
-    
-    # Create Magick objects.
-    final_image = Magick::ImageList.new(Rails.root.join(Memegen::Application::MAGICK_TEMPLATE_DIR, template))
-    text_buffer = Magick::Draw.new
-
-    if !text_top.empty?
-      # Add top text.
-      text_buffer.annotate(final_image, 0, 0, 0, 10, text_bottom.upcase) {
-        self.font_family = 'Impact'
-        self.gravity = Magick::SouthGravity
-        self.pointsize = 48
-        self.stroke = Memegen::Application::COLOR_BLACK
-        self.fill = Memegen::Application::COLOR_WHITE
-        self.font_weight = Magick::BoldWeight
-      }
+    if !params[:images][:bg].empty?
+      # Set result to background image.
+      result = Magick::Image.read_inline(params[:images][:bg]).first
     end
-    
-    if !text_top.empty?
-      # Add bottom text.
-      text_buffer.annotate(final_image, 0, 0, 0, 10, text_top.upcase) {
-        self.font_family = 'Impact'
-        self.gravity = Magick::NorthGravity
-        self.pointsize = 48
-        self.stroke = Memegen::Application::COLOR_BLACK
-        self.fill = Memegen::Application::COLOR_WHITE
-        self.font_weight = Magick::BoldWeight
-      }
+
+    if !params[:images][:top].empty?
+      image_top = Magick::Image.read_inline(params[:images][:top]).first
+      result = result.composite!(image_top, Magick::CenterGravity, Magick::OverCompositeOp)
+    end
+
+    if !params[:images][:bottom].empty?
+      image_bottom = Magick::Image.read_inline(params[:images][:bottom]).first
+      result = result.composite!(image_bottom, Magick::CenterGravity, Magick::OverCompositeOp)
     end
 
     respond_to do |format|
       if @meme.save
-        # Create the meme file.
-        final_image.write(Memegen::Application::MEME_OUTPUT_DIR + @meme.id.to_s + ".jpg")
-
+        result.write(Memegen::Application::MEME_OUTPUT_DIR + @meme.id.to_s + ".jpg")
         format.html { redirect_to @meme, notice: 'Meme was successfully created.' }
         format.json { render action: 'show', status: :created, location: @meme }
       else

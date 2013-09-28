@@ -43,6 +43,9 @@
       <label class="label label-default">Text (bottom)</label><br>
       <input type="text" name="content[bottom]" id="content[bottom]" />
     </div>
+    <%= hidden_field_tag 'images[bg]' %>
+    <%= hidden_field_tag 'images[top]' %>
+    <%= hidden_field_tag 'images[bottom]' %>
     <div class="actions">
       <br />
       <%= f.submit "Create Meme", :class => "btn btn-success" %>
