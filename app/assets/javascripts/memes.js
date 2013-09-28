@@ -92,6 +92,32 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, orientation) {
 	var line = '';
 	var numLines = 0;
 
+	// Count the number of lines and adjust the y coordinate for bottom text.
+	// This is so we get text like 
+	// ---------              ---------
+	// |       |              |       |
+	// | this  |  instead of  |wrapped|
+	// |  is   |              |  is   |
+	// |wrapped|              | this  |
+	// ---------              ---------
+	if (orientation == BOTTOM) {
+		var tempLine = '';
+		for(var n = 0; n < words.length; n++) {
+		var testLine = tempLine + words[n] + ' ';
+		var metrics = context.measureText(testLine);
+		var testWidth = metrics.width;
+			if (testWidth > maxWidth && n > 0) {
+			    tempLine = words[n] + ' ';
+			    numLines++;
+			} else {
+				tempLine = testLine;
+			}
+		}
+		for(var i = 0; i < numLines; ++i) {
+			y -= lineHeight;
+		}
+	}
+
 	for(var n = 0; n < words.length; n++) {
 	  var testLine = line + words[n] + ' ';
 	  var metrics = context.measureText(testLine);
@@ -100,11 +126,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, orientation) {
 	    context.fillText(line, x, y);
 	    context.strokeText(line, x, y);
 	    line = words[n] + ' ';
-	    if (orientation == BOTTOM) {
-	        y -= lineHeight;            	
-	    } else {
-	    	y += lineHeight;  
-	    }
+	    y += lineHeight;  
 	  }
 	  else {
 	    line = testLine;
