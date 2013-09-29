@@ -2,15 +2,19 @@
 <p id="notice"><%= notice %></p>
 
 <%= image_tag "/generated/" + @meme.id.to_s + ".jpg" %>
-<p>
-  <strong>Title:</strong>
-  <%= @meme.title %>
-</p>
+<br>
+<br>
+<div>
+	<% if @author %>
+		<p>
+		  <strong>Author:</strong>
+		  <%= @author %>
+		</p>
+	<% end %>
+	<p>
+	  <strong>Context:</strong>
+	  <%= @meme.context %>
+	</p>
+</div>
 
-<p>
-  <strong>Context:</strong>
-  <%= @meme.context %>
-</p>
-
-<%= link_to 'Edit', edit_meme_path(@meme) %> |
-<%= link_to 'Back', memes_path %>
+<a href="<%= memes_path %>"><input type="button" class="btn btn-default" value="Back" /></a>

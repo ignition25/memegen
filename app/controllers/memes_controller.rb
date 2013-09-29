@@ -6,12 +6,18 @@ class MemesController < ApplicationController
   # GET /memes
   # GET /memes.json
   def index
-    @memes = Meme.all
+    @memes = Meme.order("created_at DESC")
   end
 
   # GET /memes/1
   # GET /memes/1.json
   def show
+    if @meme.user
+      user = User.find(@meme.user)
+      if user.username
+        @author = user.username
+      end
+    end
   end
 
   # GET /memes/new
@@ -30,6 +36,10 @@ class MemesController < ApplicationController
     # TODO(juarez): Add security, sanitize input. Check if template is actually present.
     @meme = Meme.new(meme_params)
     meme_id = params[:meme][:id]
+
+    if user_signed_in?
+      @meme.user = current_user
+    end
     
     if !params[:images][:bg].empty?
       # Set result to background image.
@@ -90,6 +100,6 @@ class MemesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def meme_params
-      params.require(:meme).permit(:title, :context)
+      params.require(:meme).permit(:context)
     end
 end

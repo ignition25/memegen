@@ -13,5 +13,6 @@ templates = Template.create([{ title: 'Overachiever', path: '1bhz.jpg' },
 	{ title: 'Patriotic', path: '2pte.jpg' },
 	{ title: 'Realization Guy', path: '25w4.jpg' },
 	{ title: 'Picard Upset', path: '59qi.jpg' },
-	{ title: 'Picard Facepalm', path: 'wczz.jpg'}
+	{ title: 'Picard Facepalm', path: 'wczz.jpg'},
+	{ title: 'Cocaine Bear', path: 'cocaine-bear.jpg'}
 	])

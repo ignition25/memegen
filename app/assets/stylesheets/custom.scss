@@ -99,3 +99,45 @@ body {
   margin-bottom: 60px;
   float: left;
 }
+
+.memes-container {
+  width: 100%;
+  line-height: 0;
+/*  -webkit-column-count: 5;
+  -webkit-column-gap:   10px;
+  -moz-column-count:    5;
+  -moz-column-gap:      10px;
+  column-count:         5;
+  column-gap:           10px; */
+  img.meme {
+    max-width: 22.13835443%;
+    height: auto;
+    margin: 0 3.375527426% 3.375527426% 0;
+  }
+
+  a:nth-child(4n) img.meme{
+    margin-right: 0;
+  }
+
+}
+
+a.nav-button {
+  padding: 0 !important;
+  margin: 20px 15px 15px 0;
+}
+
+@media (max-width: 1200px) {
+  .memes-container {
+    img.meme {
+      max-width: 44%;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .memes-container {
+    img.meme {
+      max-width: 100%;
+    }
+  }
+}

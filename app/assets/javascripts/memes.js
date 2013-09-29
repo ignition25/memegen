@@ -44,7 +44,7 @@ $(document).ready(init);
 
 imageObj.onload = function() {
 	setCanvasDimensions(this);
-	imageContext.drawImage(imageObj, 0, 0);
+	imageContext.drawImage(imageObj, 0, 0, imageObj.width, imageObj.height);
 	drawText(bottomTextContext);
 	drawText(topTextContext);
 	var base64Image = imageCanvas.toDataURL("image/png");
