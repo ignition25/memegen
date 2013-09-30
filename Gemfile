@@ -14,6 +14,7 @@ gem 'rmagick'
 group :production do
     # Production db.
     gem 'pg'
+    gem 'rails_12factor'
 end
 
 # Users.
