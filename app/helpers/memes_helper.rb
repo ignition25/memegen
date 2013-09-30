@@ -8,13 +8,10 @@ module MemesHelper
 		return voteCount
 	end
 
-	def getUserVoteValue meme
+	def getUserVote meme
 		if user_signed_in?
 			user_vote = Vote.find_by_user_id_and_meme_id(current_user.id, meme.id)
-			if user_vote
-				puts user_vote.value
-				return user_vote.value
-			end
+			return user_vote
 		end
 	end
 

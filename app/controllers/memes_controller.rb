@@ -73,19 +73,6 @@ class MemesController < ApplicationController
     end
   end
 
-  # POST /memes/1.json
-  def vote
-    @vote = params[:vote]
-    meme = Meme.find(@vote.meme)
-    vote_count = meme.votes.where(value: :up).count - meme.votes.where(value: :down).count
-
-    respond_to do |format|
-      if @vote.save
-        format.json { render json: { :vote_count => vote_count } }
-      end
-    end
-  end
-
   # PATCH/PUT /memes/1
   # PATCH/PUT /memes/1.json
   def update
@@ -119,5 +106,9 @@ class MemesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def meme_params
       params.require(:meme).permit(:context)
+    end
+
+    def vote_params
+      params.require(:vote).permit(:meme, :user, :value)
     end
 end

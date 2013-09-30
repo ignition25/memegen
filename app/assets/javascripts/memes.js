@@ -45,6 +45,23 @@ function init() {
 	}, function() {
 		$(this).find('.vote-button').hide();		
 	});
+
+	$('.vote-button').click(function(){
+		// Submit form.
+		memeContainer = $(this).parent().parent();
+		memeContainer.find("#vote_value").val(this.value);
+		form = memeContainer.find("#vote_form");
+	    $.ajax({
+	       type: "POST",
+	       url: $(form).attr('action'),
+	       data: $(form).serialize(), // serializes the form's elements.
+	       success: function(data) { 
+	       		memeContainer.find("#vote-count").html("+" + data.vote_count); 
+	   		}
+     	});
+     	memeContainer.find(".active").removeClass("active");
+     	$(this).addClass("active");
+	});
 	
 }
 
