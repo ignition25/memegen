@@ -141,3 +141,8 @@ a.nav-button {
     }
   }
 }
+
+.signin-form input[type="password"],
+.signin-form input[type="email"] {
+  width: 400px;
+}

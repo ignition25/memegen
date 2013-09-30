@@ -35,6 +35,9 @@ function init() {
 		var base64Image = bottomTextCanvas.toDataURL("image/png");
 		$('#images_bottom').val(base64Image.substr(base64Image.indexOf(',')));
 	});
+
+	// Auto-hide success notices since they don't require any action by the user.
+	$('.alert-success').delay(4000).fadeOut(400);
 }
 
 // For turbolinks.
@@ -87,10 +90,8 @@ function drawText(context) {
 	}
 }
 
-function wrapText(context, text, x, y, maxWidth, lineHeight, orientation) {
-	var words = text.split(' ');
-	var line = '';
-	var numLines = 0;
+function measureNumLines(context, words, maxWidth, lineHeight) {
+	var numLines = 1;
 
 	// Count the number of lines and adjust the y coordinate for bottom text.
 	// This is so we get text like 
@@ -100,23 +101,64 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, orientation) {
 	// |  is   |              |  is   |
 	// |wrapped|              | this  |
 	// ---------              ---------
-	if (orientation == BOTTOM) {
-		var tempLine = '';
-		for(var n = 0; n < words.length; n++) {
-		var testLine = tempLine + words[n] + ' ';
-		var metrics = context.measureText(testLine);
-		var testWidth = metrics.width;
-			if (testWidth > maxWidth && n > 0) {
-			    tempLine = words[n] + ' ';
-			    numLines++;
-			} else {
-				tempLine = testLine;
-			}
+
+	var tempLine = '';
+	for(var n = 0; n < words.length; n++) {
+	var testLine = tempLine + words[n] + ' ';
+	var metrics = context.measureText(testLine);
+	var testWidth = metrics.width;
+		if (testWidth > maxWidth && n > 0) {
+		    tempLine = words[n] + ' ';
+		    numLines++;
+		} else {
+			tempLine = testLine;
 		}
-		for(var i = 0; i < numLines; ++i) {
+	}
+
+	return numLines;
+}
+
+function wrapText(context, text, x, y, maxWidth, lineHeight, orientation) {
+	var words = text.split(' ');
+	var line = '';
+
+	var numLines = measureNumLines(context, words, maxWidth, lineHeight);
+
+	// Set the lineheight and fontsize based on the number of lines used.
+	if (numLines >= 5) {
+		context.font = 'bold 28pt Impact, Helvetica';
+		lineHeight -= 12;
+		if (orientation == TOP) {
+			y -= 12;
+		}
+		// Remeasure.
+		numLines = measureNumLines(context, words, maxWidth, lineHeight);
+	} else if (numLines >= 4) {
+		context.font = 'bold 32pt Impact, Helvetica';
+		lineHeight -= 8;
+		if (orientation == TOP) {
+			y -= 8;
+		}
+		// Remeasure.
+		numLines = measureNumLines(context, words, maxWidth, lineHeight);
+	} else if (numLines >= 3) {
+		context.font = 'bold 36pt Impact, Helvetica';
+		lineHeight -= 4;
+		if (orientation == TOP) {
+			y -= 4;
+		}
+		// Remeasure.
+		numLines = measureNumLines(context, words, maxWidth, lineHeight);
+	}
+
+
+	if (orientation == BOTTOM) {
+		// Start higher if more than one line is required.
+		for(var i = 1; i < numLines; ++i) {
 			y -= lineHeight;
 		}
 	}
+	
 
 	for(var n = 0; n < words.length; n++) {
 	  var testLine = line + words[n] + ' ';
