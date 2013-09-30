@@ -1,1 +1,1 @@
-json.extract! @meme, :title, :context, :created_at, :updated_at
+json.extract! @meme, :context, :created_at, :updated_at

@@ -8,7 +8,15 @@
   <div class="col-md-11">
       <div class="memes-container">
         <% @memes.each do |meme| %>
-          <a href="<%= meme_path(meme) %>"><img src="<%= getMemePath(meme) %>" class="meme" /></a>
+          <div class="meme">
+            <a href="<%= meme_path(meme) %>"><img src="<%= getMemePath(meme) %>" class="meme-image" /></a>
+            <div class="btn-group vote-buttons">
+              <% vote_value = getUserVoteValue meme %>
+              <button type="button" class="btn btn-default vote-button<%= ' active' if vote_value == 'up' %>"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+              <button type="button" class="btn btn-default vote-button<%= ' active' if vote_value == 'down' %>"><span class="glyphicon glyphicon-thumbs-down"></span></button>
+              <button type="button" class="btn btn-default vote-count">+<%= getVoteCount meme %></button>
+            </div>
+          </div>
         <% end %>
       </div>
     <br>

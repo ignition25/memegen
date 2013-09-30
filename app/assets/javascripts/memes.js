@@ -38,6 +38,14 @@ function init() {
 
 	// Auto-hide success notices since they don't require any action by the user.
 	$('.alert-success').delay(4000).fadeOut(400);
+
+	$('.vote-button').hide();
+	$('.meme').hover(function() {
+		$(this).find('.vote-button').show();
+	}, function() {
+		$(this).find('.vote-button').hide();		
+	});
+	
 }
 
 // For turbolinks.

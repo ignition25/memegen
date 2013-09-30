@@ -59,11 +59,29 @@ class MemesController < ApplicationController
     respond_to do |format|
       if @meme.save
         result.write(Memegen::Application::MEME_OUTPUT_DIR + @meme.id.to_s + ".jpg")
+        if user_signed_in?
+          # If the user is signed in then auto add an upvote from them.
+          Vote.new(user: current_user, meme: @meme, value: :up).save
+        end
+
         format.html { redirect_to @meme, notice: 'Meme was successfully created.' }
         format.json { render action: 'show', status: :created, location: @meme }
       else
         format.html { render action: 'new' }
         format.json { render json: @meme.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # POST /memes/1.json
+  def vote
+    @vote = params[:vote]
+    meme = Meme.find(@vote.meme)
+    vote_count = meme.votes.where(value: :up).count - meme.votes.where(value: :down).count
+
+    respond_to do |format|
+      if @vote.save
+        format.json { render json: { :vote_count => vote_count } }
       end
     end
   end
