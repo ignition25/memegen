@@ -163,25 +163,25 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, orientation) {
 	// Set the lineheight and fontsize based on the number of lines used.
 	if (numLines >= 5) {
 		context.font = 'bold 28pt Impact, Helvetica';
-		lineHeight -= 12;
+		lineHeight -= 16;
 		if (orientation == TOP) {
-			y -= 12;
+			y -= 14;
 		}
 		// Remeasure.
 		numLines = measureNumLines(context, words, maxWidth, lineHeight);
 	} else if (numLines >= 4) {
 		context.font = 'bold 32pt Impact, Helvetica';
-		lineHeight -= 8;
+		lineHeight -= 12;
 		if (orientation == TOP) {
-			y -= 8;
+			y -= 10;
 		}
 		// Remeasure.
 		numLines = measureNumLines(context, words, maxWidth, lineHeight);
 	} else if (numLines >= 3) {
 		context.font = 'bold 36pt Impact, Helvetica';
-		lineHeight -= 4;
+		lineHeight -= 6;
 		if (orientation == TOP) {
-			y -= 4;
+			y -= 6;
 		}
 		// Remeasure.
 		numLines = measureNumLines(context, words, maxWidth, lineHeight);
