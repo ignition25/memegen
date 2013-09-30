@@ -21,9 +21,7 @@ module Memegen
     # config.i18n.default_locale = :de
 
     # Global variables.
-    TEMPLATE_DIR = "/assets/templates/"
     MEME_OUTPUT_DIR = "public/generated/"
-    MAGICK_TEMPLATE_DIR = "app/assets/images/templates/"
     COLOR_BLACK = "#000000"
     COLOR_WHITE = "#FFFFFF"
   end
