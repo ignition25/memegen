@@ -46,7 +46,8 @@ body {
   width: auto;
 }
 .container .credit {
-  margin: 20px 0;
+  margin: 10px 0 0 0;
+  color: #666666 !important;
 }
 
 .templates-container {
@@ -170,5 +171,14 @@ button.vote-count {
     color: #666666 !important;
     background-color: #ffffff !important;
     border-color: #cccccc !important;
+  }
+}
+
+a.feedback-link {
+  position: absolute;
+  bottom: 0;
+
+  &:hover{
+    text-decoration: none;
   }
 }
