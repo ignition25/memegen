@@ -42,7 +42,7 @@ class MemesController < ApplicationController
     meme_id = params[:meme][:id]
 
     if user_signed_in?
-      @meme.user_id = current_user
+      @meme.user_id = current_user.id
     end
     
     if !params[:images][:bg].empty?
@@ -113,6 +113,6 @@ class MemesController < ApplicationController
     end
 
     def vote_params
-      params.require(:vote).permit(:meme, :user, :value)
+      params.require(:vote).permit(:meme, :user_id, :value)
     end
 end

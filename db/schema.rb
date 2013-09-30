@@ -13,8 +13,12 @@
 
 ActiveRecord::Schema.define(version: 20130929225728) do
 
-# Could not dump table "memes" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  create_table "memes", force: true do |t|
+    t.string   "context"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
 
   create_table "templates", force: true do |t|
     t.string   "title"
