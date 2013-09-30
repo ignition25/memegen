@@ -159,6 +159,9 @@ a.nav-button {
   bottom: -10px;
   right: -10px;
   z-index: 1;
+  button {
+    font-size: 12px !important;
+  }
 }
 
 button.vote-count {
