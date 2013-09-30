@@ -3,6 +3,7 @@ Memegen::Application.routes.draw do
 
   root to: 'memes#index'
   post '/vote' => 'votes#vote'
+  get '/:sort' => 'memes#index'
 
   devise_for :users
 

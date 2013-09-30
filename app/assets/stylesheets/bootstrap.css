@@ -4679,6 +4679,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
+  pointer-events: none;
   z-index: 2;
   color: #ffffff;
   cursor: default;

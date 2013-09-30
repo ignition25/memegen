@@ -3,10 +3,18 @@ require 'RMagick'
 class MemesController < ApplicationController
   before_action :set_meme, only: [:show, :update, :destroy]
 
+  MEMES_PER_PAGE = 20
+
   # GET /memes
   # GET /memes.json
   def index
-    @memes = Meme.order("created_at DESC")
+    if params[:sort] and params[:sort] == "popular"
+      @memes = Meme.all.sort{|m1, m2| m2.popularity <=> m1.popularity }
+      @memes = Kaminari.paginate_array(@memes)
+    else
+      @memes = Meme.order("created_at DESC")
+    end
+    @memes = @memes.page(params[:page]).per(MEMES_PER_PAGE)
   end
 
   # GET /memes/1

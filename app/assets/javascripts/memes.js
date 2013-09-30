@@ -37,7 +37,9 @@ function init() {
 	});
 
 	// Auto-hide success notices since they don't require any action by the user.
-	$('.alert-success').delay(4000).fadeOut(400);
+	$('.alert-success').delay(4000).fadeOut(400, function(){
+		$(this).remove();
+	});
 
 	$('.vote-button').hide();
 	$('.meme').hover(function() {

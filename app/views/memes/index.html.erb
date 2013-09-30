@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col-md-1">
     <div class="btn-group-vertical">
-      <button type="button" class="btn btn-success active">Newest</button>
-      <button type="button" class="btn btn-default">Popular</button>
-      <button type="button" class="btn btn-default">Emerald</button>
-      <button type="button" class="btn btn-primary">+ Group</button>
+      <%= left_nav_button 'Newest', root_path %>
+      <%= left_nav_button 'Popular', root_path << "popular" %>
+      <a type="button" class="btn btn-default">Emerald</a>
+      <a type="button" class="btn btn-primary">+ Group</a>
     </div>
   </div>
   <!-- End navigation -->
@@ -28,6 +28,7 @@
           </div>
         <% end %>
       </div>
+      <%= paginate @memes %>
     <br>
   </div>
 </div>
