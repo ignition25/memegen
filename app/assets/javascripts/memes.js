@@ -69,6 +69,10 @@ function init() {
 	       	}
      	});
 	});
+
+	$('.template').click(function(){
+		$('#template-name').text($(this).attr('title'));
+	});
 	
 }
 
