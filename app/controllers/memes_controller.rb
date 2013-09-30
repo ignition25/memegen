@@ -20,8 +20,8 @@ class MemesController < ApplicationController
   # GET /memes/1
   # GET /memes/1.json
   def show
-    if @meme.user
-      user = User.find(@meme.user)
+    if @meme.user_id
+      user = User.find(@meme.user_id)
       if user.username
         @author = user.username
       end
@@ -42,7 +42,7 @@ class MemesController < ApplicationController
     meme_id = params[:meme][:id]
 
     if user_signed_in?
-      @meme.user = current_user
+      @meme.user_id = current_user
     end
     
     if !params[:images][:bg].empty?

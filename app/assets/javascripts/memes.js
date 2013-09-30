@@ -48,11 +48,12 @@ function init() {
 		$(this).find('.vote-button').hide();		
 	});
 
-	$('.vote-button').click(function(){
+	$('.vote-button, .vote-button-show').click(function(){
 		// Submit form.
 		memeContainer = $(this).parent().parent();
 		memeContainer.find("#vote_value").val(this.value);
 		form = memeContainer.find("#vote_form");
+		var button = $(this);
 	    $.ajax({
 	       type: "POST",
 	       url: $(form).attr('action'),
@@ -61,7 +62,7 @@ function init() {
 		       	if (data.status == "success") {
 		       		memeContainer.find("#vote-count").html("+" + data.vote_count);
        		     	memeContainer.find(".active").removeClass("active");
-			     	$(this).addClass("active"); 
+			     	button.addClass("active"); 
 		       	} else if (data.status == "not_signed_in") {
 		       		$('#flash_js').html('You must be <a href="/users/sign_in"><b>signed in</b></a> to vote!');
 		       		$('.js-alert').removeClass('alert-success');
