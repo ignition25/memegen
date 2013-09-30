@@ -55,7 +55,7 @@ body {
   margin-bottom: 20px;
   img {
     max-width: 20%;
-    max-height: 120px;
+    max-height: 110px;
   }
 
   label {
@@ -164,7 +164,7 @@ a.nav-button {
 button.vote-count {
   cursor: default;
   &:hover{
-    color: #333333 !important;
+    color: #666666 !important;
     background-color: #ffffff !important;
     border-color: #cccccc !important;
   }

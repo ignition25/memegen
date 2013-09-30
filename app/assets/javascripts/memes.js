@@ -56,11 +56,18 @@ function init() {
 	       url: $(form).attr('action'),
 	       data: $(form).serialize(), // serializes the form's elements.
 	       success: function(data) { 
-	       		memeContainer.find("#vote-count").html("+" + data.vote_count); 
-	   		}
+		       	if (data.status == "success") {
+		       		memeContainer.find("#vote-count").html("+" + data.vote_count);
+       		     	memeContainer.find(".active").removeClass("active");
+			     	$(this).addClass("active"); 
+		       	} else if (data.status == "not_signed_in") {
+		       		$('#flash_js').html('You must be <a href="/users/sign_in"><b>signed in</b></a> to vote!');
+		       		$('.js-alert').removeClass('alert-success');
+		       		$('.js-alert').addClass('alert-danger');
+		       		$('.js-alert').show();
+		       	}
+	       	}
      	});
-     	memeContainer.find(".active").removeClass("active");
-     	$(this).addClass("active");
 	});
 	
 }
