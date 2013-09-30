@@ -1,7 +1,7 @@
 require 'RMagick'
 
 class MemesController < ApplicationController
-  before_action :set_meme, only: [:show, :edit, :update, :destroy]
+  before_action :set_meme, only: [:show, :update, :destroy]
 
   # GET /memes
   # GET /memes.json
@@ -24,10 +24,6 @@ class MemesController < ApplicationController
   def new
     @meme = Meme.new
     @templates = Template.all
-  end
-
-  # GET /memes/1/edit
-  def edit
   end
 
   # POST /memes
