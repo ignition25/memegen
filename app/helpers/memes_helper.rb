@@ -16,7 +16,7 @@ module MemesHelper
 	end
 
 	def getTemplatePath template
-		return Memegen::Application::TEMPLATE_DIR + template.path
+		return 'templates/' + template.path
 	end
 
 	def getMemePath meme
