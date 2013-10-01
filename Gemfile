@@ -11,6 +11,9 @@ end
 # Image processing.
 gem 'rmagick'
 
+# Image storage.
+gem 'aws-sdk'
+
 group :production do
     # Production db.
     gem 'pg'

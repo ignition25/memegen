@@ -20,6 +20,6 @@ module MemesHelper
 	end
 
 	def getMemePath meme
-		return "/generated/" + meme.id.to_s + ".jpg"
+		return ENV['S3_BUCKET_URL'] + meme.id.to_s + ".jpg"
 	end
 end

@@ -62,12 +62,32 @@ class MemesController < ApplicationController
 
     respond_to do |format|
       if @meme.save
-        result.write(Memegen::Application::MEME_OUTPUT_DIR + @meme.id.to_s + ".jpg")
-        if user_signed_in?
-          # If the user is signed in then auto add an upvote from them.
-          Vote.new(user: current_user, meme: @meme, value: :up).save
+        s3 = AWS::S3.new
+        begin
+          obj = s3.buckets[ENV['S3_BUCKET_NAME']].objects[@meme.id.to_s + ".jpg"]
+          obj.write(result.to_blob, {:acl => :public_read, :cache_control => "max-age=14400"})
+        rescue Exception => ex
+          # Upload failed, try again.
+          puts 'Error uploading meme to S3, retrying.'
+          puts ex.message
+          begin
+            obj = s3.buckets[ENV['S3_BUCKET_NAME']].objects[@meme.id.to_s + ".jpg"]
+            obj.write(result.to_blob, {:acl => :public_read, :cache_control => "max-age=14400"})
+          rescue Exception => ex
+            # Upload failed, alert the user and return to the previous page.
+            puts 'Error uploading meme to S3 on 2nd and final attempt.'
+            puts ex.message
+            flash[:error] = "We're very sorry, there was an error saving your meme. Please try again."
+            @meme.destroy
+            redirect_to :back
+            return
+          end
+        else
+          if user_signed_in?
+            # If the user is signed in then auto add an upvote from them.
+            Vote.new(user: current_user, meme: @meme, value: :up).save
+          end
         end
-
         format.html { redirect_to @meme, notice: 'Meme was successfully created.' }
         format.json { render action: 'show', status: :created, location: @meme }
       else
