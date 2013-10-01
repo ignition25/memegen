@@ -18,8 +18,10 @@ function init() {
 	}
 
 	$('.template').click(function(){
-		imageContext.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
-		imageObj.src = this.src;
+		if (imageObj.src != this.src) {
+			imageContext.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
+			imageObj.src = this.src;			
+		}
 	});
 
 	$('input#content\\[top\\]').keyup(function() {
@@ -45,7 +47,7 @@ function init() {
 	$('.meme').hover(function() {
 		$(this).find('.vote-button').show();
 	}, function() {
-		$(this).find('.vote-button').hide();		
+		$(this).find('.vote-button').hide();
 	});
 
 	$('.vote-button, .vote-button-show').click(function(){
