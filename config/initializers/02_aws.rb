@@ -1,6 +1,6 @@
 if Rails.env.production?
-	ENV['S3_BUCKET_NAME'] = 'memeosa'
-	ENV['S3_BUCKET_URL'] = 'https://memeosa.s3.amazonaws.com/'
+	ENV['S3_BUCKET_NAME'] = 'memeosa-generated'
+	ENV['S3_BUCKET_URL'] = 'https://memeosa-generated.s3.amazonaws.com/'
 else
 	ENV['S3_BUCKET_NAME'] = 'generated-memes'
 	ENV['S3_BUCKET_URL'] = 'https://generated-memes.s3.amazonaws.com/'
