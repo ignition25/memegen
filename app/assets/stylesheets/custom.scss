@@ -42,7 +42,7 @@ body {
 /* Not required for template or sticky footer method. */
 
 .container {
-  max-width: 70%;
+  max-width: 90%;
   width: auto;
 }
 .container .credit {
@@ -123,8 +123,6 @@ body {
     position: relative;
     display: inline-block;
     z-index: 0;
-    max-width: 22.13835443%;
-    margin: 0 2.597402597% 2.597402597% 0;
   }
 
 }
@@ -132,6 +130,20 @@ body {
 a.nav-button {
   padding: 0 !important;
   margin: 15px 15px 15px 0;
+}
+
+@media (min-width: 1441px) {
+  .meme {
+    max-width: 22.13835443%;
+    margin: 0 2.597402597% 2.597402597% 0;
+  }
+}
+
+@media (max-width: 1440px) {
+  .meme {
+    max-width: 21.644295302%;
+    margin: 0 2.684563758% 2.684563758% 0; 
+  }
 }
 
 @media (max-width: 1200px) {
@@ -177,4 +189,8 @@ button.vote-count {
 a.feedback-link {
   position: absolute;
   bottom: 0;
+}
+
+.left-nav {
+  display: block !important;
 }

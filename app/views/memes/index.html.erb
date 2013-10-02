@@ -1,6 +1,6 @@
 <div class="row">
-  <div class="col-md-1">
-    <div class="btn-group-vertical">
+  <div class="col-md-2">
+    <div class="btn-group-vertical left-nav">
       <%= left_nav_button 'Newest', root_path %>
       <%= left_nav_button 'Popular', root_path << "popular" %>
       <a type="button" class="btn btn-default">Emerald</a>
@@ -8,7 +8,7 @@
     </div>
   </div>
   <!-- End navigation -->
-  <div class="col-md-11">
+  <div class="col-md-10">
       <div class="memes-container">
         <% @memes.each do |meme| %>
           <div class="meme">
