@@ -5,6 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+puts "Seeding templates..."
 templates = Template.create([{ title: 'Overachiever', path: '1bhz.jpg' }, 
 	{ title: 'Grumpy Cat', path: '8p0a.jpg' }, 
 	{ title: 'Spiderman Doing Nothing', path: 'tas1.jpg' }, 
@@ -39,3 +40,8 @@ templates = Template.create([{ title: 'Overachiever', path: '1bhz.jpg' },
 	{ title: 'History Channel Aliens', path: 'history-channel-aliens-meme-template.jpg' },
 	{ title: 'Overly Attached Girlfriend', path: 'overly-attached-girlfriend-meme-template.jpg' }
 	])
+
+# Load next seed file.
+load "#{Rails.root}/db/seeds2.rb"
+
+puts "Seeding complete."
