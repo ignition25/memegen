@@ -126,7 +126,7 @@ function drawText(context) {
 		context.textAlign = 'center';
 		context.fillStyle = 'white';
 		context.strokeStyle = 'black'
-		context.lineWidth = 1;
+		context.lineWidth = 2;
 		wrapText(context, text, x, y, context.canvas.width, 52, orientation);
 	}
 }
