@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-md-2">
     <div class="btn-group-vertical left-nav">
-      <%= left_nav_button 'Newest', root_path %>
-      <%= left_nav_button 'Popular', root_path << "popular" %>
+      <%= nav_newest_button 'Newest', root_path %>
+      <%= nav_sort_button 'Popular', root_path << "popular", "popular" %>
       <a type="button" class="btn btn-default">Emerald</a>
       <a type="button" class="btn btn-primary">+ Group</a>
     </div>
