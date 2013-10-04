@@ -43,5 +43,6 @@ templates = Template.create([{ title: 'Overachiever', path: '1bhz.jpg' },
 
 # Load next seed file.
 load "#{Rails.root}/db/seeds2.rb"
+load "#{Rails.root}/db/seeds3.rb"
 
 puts "Seeding complete."

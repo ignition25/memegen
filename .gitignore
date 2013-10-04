@@ -17,3 +17,4 @@ pickle-email-*.html
 *~
 /public/generated/*
 /config/initializers/01_aws_local.rb
+*.DS_Store

@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130929225728) do
+ActiveRecord::Schema.define(version: 20131004065835) do
+
+  create_table "groups", force: true do |t|
+    t.string "name"
+    t.string "visibility"
+    t.string "key"
+  end
+
+  create_table "groups_users", force: true do |t|
+    t.integer "groups_id"
+    t.integer "user_id"
+  end
 
   create_table "memes", force: true do |t|
     t.string   "context"
