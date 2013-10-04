@@ -11,6 +11,9 @@ end
 # Image processing.
 gem 'rmagick'
 
+# For group keys.
+gem 'uuid'
+
 # Image storage.
 gem 'aws-sdk'
 

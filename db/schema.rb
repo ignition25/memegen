@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131004065835) do
+ActiveRecord::Schema.define(version: 20131004221708) do
 
   create_table "groups", force: true do |t|
     t.string "name"
@@ -19,8 +19,15 @@ ActiveRecord::Schema.define(version: 20131004065835) do
     t.string "key"
   end
 
+  add_index "groups", ["key"], name: "index_groups_on_key", unique: true
+
+  create_table "groups_memes", force: true do |t|
+    t.integer "group_id"
+    t.integer "meme_id"
+  end
+
   create_table "groups_users", force: true do |t|
-    t.integer "groups_id"
+    t.integer "group_id"
     t.integer "user_id"
   end
 

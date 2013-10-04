@@ -22,4 +22,12 @@ module MemesHelper
 	def getMemePath meme
 		return ENV['S3_BUCKET_URL'] + meme.id.to_s + ".jpg"
 	end
+
+	def getUserGroups
+		if user_signed_in?
+			return current_user.groups
+		else
+			return []
+		end
+	end
 end

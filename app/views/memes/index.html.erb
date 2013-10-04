@@ -3,11 +3,13 @@
     <div class="btn-group-vertical left-nav">
       <%= nav_newest_button 'Newest', root_path %>
       <%= nav_sort_button 'Popular', root_path << "popular", "popular" %>
-      <a type="button" class="btn btn-default">Emerald</a>
-      <a type="button" class="btn btn-primary">+ Group</a>
+      <% getUserGroups.each do |group| %>
+        <%= nav_group_button group %>
+      <% end %>
+      <a type="button" data-toggle="modal" href="#new-group" class="btn btn-primary">+ Group</a>
     </div>
   </div>
-  <!-- End navigation -->
+  <%= render "groups/group_modal_form" %>      
   <div class="col-md-10">
       <div class="memes-container">
         <% @memes.each do |meme| %>

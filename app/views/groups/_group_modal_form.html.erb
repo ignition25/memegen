@@ -1,0 +1,39 @@
+<div class="modal fade" id="new-group" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">  <!-- Modal -->
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Create a New Group</h4>
+        </div>
+		<%= form_tag '/groups', method: :post, id: 'new-group-form', class: "form-horizontal signin-form" do %>
+	        <div class="modal-body">
+					<div class="form-group">
+					    <%= label_tag 'group[name]', 'Group Name', class: "col-lg-3 control-label" %>
+					    <div class="col-lg-9">
+					        <%= text_field_tag 'group[name]', nil, class: "form-control", :autofocus => true, :placeholder => "Group Name" %>
+					    </div>
+					</div>
+					  <div class="form-group">
+					    <%= label_tag 'group[visibility]', 'Visibility', class: "col-lg-3 control-label" %>
+					    <div class="col-lg-9">
+					    	<div class="radio">
+						      <label><%= radio_button_tag "group[visibility]", "public", false, id: "group_visibility_public" %> Public</label>
+						    </div>
+					    	<div class="radio">
+						      <label><%= radio_button_tag "group[visibility]", "link_only", false, id: "group_visibility_linkonly" %> Link-Only</label>
+						    </div>
+					    	<div class="radio">
+					    	<label><%= radio_button_tag 'group[visibility]', 'private', false, id: "group_visibility_private" %> Private</label>
+						    </div>
+					    </div>
+					  </div>
+			</div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	          <%= submit_tag "Create Group", class: "btn btn-primary", id: "submit_modal" %>
+	        </div>
+		<% end %>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <!-- End navigation -->

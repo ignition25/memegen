@@ -4,6 +4,7 @@ Memegen::Application.routes.draw do
   root to: 'memes#index'
   post '/vote' => 'votes#vote'
   get '/:sort' => 'memes#index'
+  post '/groups' => 'groups#create'
 
   devise_for :users
 

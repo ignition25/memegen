@@ -8,11 +8,15 @@ class MemesController < ApplicationController
   # GET /memes
   # GET /memes.json
   def index
+    if params[:group]
+      key = params[:group]
+      @memes = Group.find_by_key(key).memes
+    else
+      @memes = Meme.order("created_at DESC")
+    end
     if params[:sort] and params[:sort] == "popular"
       @memes = Meme.all.sort{|m1, m2| m2.popularity <=> m1.popularity }
       @memes = Kaminari.paginate_array(@memes)
-    else
-      @memes = Meme.order("created_at DESC")
     end
     @memes = @memes.page(params[:page]).per(MEMES_PER_PAGE)
   end
