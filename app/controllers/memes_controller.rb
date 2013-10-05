@@ -10,12 +10,12 @@ class MemesController < ApplicationController
   def index
     if params[:group]
       key = params[:group]
-      @memes = Group.find_by_key(key).memes
+      @memes = Group.find_by_key(key).memes.order("created_at DESC")
     else
-      @memes = Meme.order("created_at DESC")
+      @memes = Meme.where(:public => true).order("created_at DESC")
     end
     if params[:sort] and params[:sort] == "popular"
-      @memes = Meme.all.sort{|m1, m2| m2.popularity <=> m1.popularity }
+      @memes = @memes.sort{|m1, m2| m2.popularity <=> m1.popularity }
       @memes = Kaminari.paginate_array(@memes)
     end
     @memes = @memes.page(params[:page]).per(MEMES_PER_PAGE)
@@ -52,6 +52,7 @@ class MemesController < ApplicationController
     if !params[:images][:bg].empty?
       # Set result to background image.
       result = Magick::Image.read_inline(params[:images][:bg]).first
+      result.format = "JPEG"
     end
 
     if !params[:images][:top].empty?
@@ -62,6 +63,10 @@ class MemesController < ApplicationController
     if !params[:images][:bottom].empty?
       image_bottom = Magick::Image.read_inline(params[:images][:bottom]).first
       result = result.composite!(image_bottom, Magick::CenterGravity, Magick::OverCompositeOp)
+    end
+
+    if user_signed_in? and params[:groups]
+      @meme.public = false
     end
 
     respond_to do |format|
@@ -88,6 +93,9 @@ class MemesController < ApplicationController
           end
         else
           if user_signed_in?
+            params[:groups].each do |id|
+              Group.find(id).memes << @meme
+            end
             # If the user is signed in then auto add an upvote from them.
             Vote.new(user: current_user, meme: @meme, value: :up).save
           end
@@ -133,7 +141,7 @@ class MemesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def meme_params
-      params.require(:meme).permit(:context)
+      params.require(:meme).permit(:context, :public)
     end
 
     def vote_params

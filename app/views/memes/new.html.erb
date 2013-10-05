@@ -25,7 +25,6 @@
     <% end %>
   </div>
   <!-- End templates. -->
-
   <!-- Begin fields. -->
   <div class="meme-fields">
     <div class="template-title"><strong>Template:</strong> <span id="template-name"></span></div>
@@ -42,6 +41,24 @@
       <label class="label label-default">Text (bottom)</label><br>
       <input type="text" name="content[bottom]" id="content[bottom]" />
     </div>
+    <!-- Visibility -->
+    <div class="visibility" style="margin-top: 15px;"><strong>Visibility:</strong> 
+      <% if current_user.try(:groups) -%>
+        <div class="group-checkboxes">
+          <label class="checkbox-inline">
+            <%= check_box_tag "public", 1 %> Public
+          </label>
+        <% current_user.groups.each do |group| -%>
+          <label class="checkbox-inline">
+            <%= check_box_tag "groups[]", group.id %> <%= group.name %>
+          </label>
+        <% end -%>
+      <% else -%>
+        <span id="visibility">Public</span>
+      <% end -%>
+      </div>
+    </div>
+    <!-- End visibility. -->
     <%= hidden_field_tag 'images[bg]' %>
     <%= hidden_field_tag 'images[top]' %>
     <%= hidden_field_tag 'images[bottom]' %>
