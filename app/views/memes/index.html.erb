@@ -9,7 +9,7 @@
       <a type="button" data-toggle="modal" href="#new-group" class="btn btn-primary">+ Group</a>
     </div>
   </div>
-  <%= render "groups/group_modal_form" %>      
+  <%= render (user_signed_in? ? "groups/group_modal_form" : "devise/sessions/new_modal_form") %>      
   <div class="col-md-10">
       <div class="memes-container">
         <% @memes.each do |meme| %>

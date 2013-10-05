@@ -1,0 +1,48 @@
+<div class="modal fade" id="new-group" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">  <!-- Modal -->
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">You need to sign in to create a group!</h4>
+        </div>
+          <%= form_for("user", :url => user_session_path, :html => {class: "form-horizontal signin-form"}) do |f| %>
+            <div class="modal-body">
+              <div class="form-group">
+                <%= f.label :email, class: "col-lg-2 control-label" %>
+                <div class="col-lg-10">
+                    <%= f.email_field :email, class: "form-control", :autofocus => true, :placeholder => "Email" %>
+                </div>
+              </div>
+              <div class="form-group">
+                <%= f.label :password, class: "col-lg-2 control-label" %>
+                <div class="col-lg-10">
+                  <%= f.password_field :password, class: "form-control", placeholder: "Password" %>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                  	<% if true -%>
+            	      	<div class="checkbox">
+            		        <label>
+            				    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+            		        </label>
+            	    	</div>
+                	<% end -%>
+                </div>
+              </div>
+            <%= link_to "Sign up", new_user_registration_path %><br />
+            <%= link_to "Forgot your password?", new_user_password_path %>
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <%= submit_tag "Sign In", class: "btn btn-primary" %>
+          </div>
+
+        <% end %>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <!-- End navigation -->
+
+
+
