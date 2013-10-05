@@ -1,7 +1,7 @@
 require 'RMagick'
 
 class MemesController < ApplicationController
-  before_action :set_meme, only: [:show, :update, :destroy]
+  before_action :set_meme, only: [:destroy]
 
   MEMES_PER_PAGE = 20
 
@@ -10,7 +10,12 @@ class MemesController < ApplicationController
   def index
     if params[:group]
       key = params[:group]
-      @memes = Group.find_by_key(key).memes.order("created_at DESC")
+      group = Group.find_by_key(key)
+      if group.visibility != "private" or (group.visibility == "private" and current_user and current_user.groups.include?(group))
+        @memes = Group.find_by_key(key).memes.order("created_at DESC")
+      else
+        raise ActionController::RoutingError.new('Not Found')
+      end
     else
       @memes = Meme.where(:public => true).order("created_at DESC")
     end
@@ -24,6 +29,7 @@ class MemesController < ApplicationController
   # GET /memes/1
   # GET /memes/1.json
   def show
+    @meme = Meme.find_by_key(params[:id])
     if @meme.user_id
       user = User.find(@meme.user_id)
       if user.username
@@ -93,8 +99,10 @@ class MemesController < ApplicationController
           end
         else
           if user_signed_in?
-            params[:groups].each do |id|
-              Group.find(id).memes << @meme
+            if params[:groups]
+              params[:groups].each do |id|
+                Group.find(id).memes << @meme
+              end
             end
             # If the user is signed in then auto add an upvote from them.
             Vote.new(user: current_user, meme: @meme, value: :up).save
@@ -104,20 +112,6 @@ class MemesController < ApplicationController
         format.json { render action: 'show', status: :created, location: @meme }
       else
         format.html { render action: 'new' }
-        format.json { render json: @meme.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /memes/1
-  # PATCH/PUT /memes/1.json
-  def update
-    respond_to do |format|
-      if @meme.update(meme_params)
-        format.html { redirect_to @meme, notice: 'Meme was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
         format.json { render json: @meme.errors, status: :unprocessable_entity }
       end
     end

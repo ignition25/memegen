@@ -53,10 +53,10 @@
             <%= check_box_tag "groups[]", group.id %> <%= group.name %>
           </label>
         <% end -%>
+        </div>
       <% else -%>
         <span id="visibility">Public</span>
       <% end -%>
-      </div>
     </div>
     <!-- End visibility. -->
     <%= hidden_field_tag 'images[bg]' %>

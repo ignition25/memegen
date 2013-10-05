@@ -15,4 +15,8 @@ module ApplicationHelper
 		content_tag(:a, group.name, href: link_path, class: class_name)
 	end
 
+	def meme_path(meme)
+		return memes_path << "/" << meme.key
+	end
+
 end
