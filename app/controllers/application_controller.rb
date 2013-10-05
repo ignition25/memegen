@@ -8,4 +8,8 @@ class ApplicationController < ActionController::Base
 	def update_sanitized_params
 	  devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:email, :password, :password_confirmation, :username, :remember_me)}
 	end
+
+	def meme_path(meme)
+		return memes_path << "/" << meme.key
+	end
 end

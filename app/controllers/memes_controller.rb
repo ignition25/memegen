@@ -48,7 +48,7 @@ class MemesController < ApplicationController
   # POST /memes.json
   def create
     # TODO(juarez): Add security, sanitize input. Check if template is actually present.
-    @meme = Meme.new(meme_params)
+    @meme = Meme.new(meme_params.merge({:key => UUID.new().generate}))
     meme_id = params[:meme][:id]
 
     if user_signed_in?
@@ -108,7 +108,7 @@ class MemesController < ApplicationController
             Vote.new(user: current_user, meme: @meme, value: :up).save
           end
         end
-        format.html { redirect_to @meme, notice: 'Meme was successfully created.' }
+        format.html { redirect_to meme_path(@meme), notice: 'Meme was successfully created.' }
         format.json { render action: 'show', status: :created, location: @meme }
       else
         format.html { render action: 'new' }
