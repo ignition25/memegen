@@ -30,4 +30,13 @@ module MemesHelper
 			return []
 		end
 	end
+
+	def meme_path(meme, options={})
+	  meme_url(meme, options.merge(:only_path => true))
+	end
+
+	def meme_url(meme, options={})
+	  url_for(options.merge(:controller => 'memes', :action => 'show',
+	                        :id => meme.key))
+	end
 end

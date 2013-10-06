@@ -12,11 +12,9 @@ module ApplicationHelper
 	def nav_group_button(group)
 		class_name = (current_page?(memes_path) and params[:group] == group.key) ? 'btn btn-success active' : 'btn btn-default'
 		link_path = memes_path << "?group=" << group.key
-		content_tag(:a, group.name, href: link_path, class: class_name)
-	end
-
-	def meme_path(meme)
-		return memes_path << "/" << meme.key
+		content_tag(:a, group.name, href: link_path, class: class_name << " group-selector") do
+			content_tag(:span, group.name) + content_tag(:i, "", class: "glyphicon glyphicon-cog group-settings-icon")
+		end
 	end
 
 end
