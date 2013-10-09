@@ -2,7 +2,7 @@
 	Choose a template
 <% end %>
 
-<%= form_for(@meme) do |f| %>
+<%= form_for([@group, @meme]) do |f| %>
   <% if @meme.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@meme.errors.count, "error") %> prohibited this meme from being saved:</h2>
@@ -42,18 +42,20 @@
       <input type="text" name="content[bottom]" id="content[bottom]" />
     </div>
     <!-- Visibility -->
-    <div class="visibility" style="margin-top: 15px;"><strong>Visibility:</strong> 
+    <div class="visibility" style="margin-top: 15px;"><strong>Post to:</strong> 
       <% if current_user.try(:groups) -%>
         <div class="group-checkboxes">
-          <label class="checkbox-inline">
-            <%= check_box_tag "public", 1 %> Public
+          <label class="radio-inline">
+            <%= radio_button_tag "meme[group_id]", 0, ((!@group) ? true : false) %> Public
           </label>
         <% current_user.groups.each do |group| -%>
-          <label class="checkbox-inline">
-            <%= check_box_tag "groups[]", group.id %> <%= group.name %>
+          <label class="radio-inline">
+            <%= radio_button_tag "meme[group_id]", group.id, ((@group and @group.id == group.id) ? true : false) %> <%= group.name %>
           </label>
         <% end -%>
         </div>
+      <% elsif @group -%>
+        <span id="visibility"><%= @group.name %></span>
       <% else -%>
         <span id="visibility">Public</span>
       <% end -%>

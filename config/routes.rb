@@ -1,6 +1,12 @@
 Memegen::Application.routes.draw do
   resources :memes
 
+  resources :groups, only: [:show, :create]
+
+  resources :groups do
+    resources :memes, only: [:show, :new, :create]
+  end
+
   root to: 'memes#index'
   post '/vote' => 'votes#vote'
   get '/:sort' => 'memes#index'

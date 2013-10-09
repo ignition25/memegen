@@ -2,34 +2,23 @@ require 'RMagick'
 
 class MemesController < ApplicationController
   before_action :set_meme, only: [:destroy]
-
-  MEMES_PER_PAGE = 20
+  before_action :check_meme_group_permissions, only: [:show]
 
   # GET /memes
   # GET /memes.json
   def index
-    if params[:group]
-      key = params[:group]
-      group = Group.find_by_key(key)
-      if group.visibility != "private" or (group.visibility == "private" and current_user and current_user.groups.include?(group))
-        @memes = Group.find_by_key(key).memes.order("created_at DESC")
-      else
-        raise ActionController::RoutingError.new('Not Found')
-      end
-    else
-      @memes = Meme.where(:public => true).order("created_at DESC")
-    end
+    @memes = Meme.where(:public => true).order("created_at DESC")
+    @group = nil
     if params[:sort] and params[:sort] == "popular"
       @memes = @memes.sort{|m1, m2| m2.popularity <=> m1.popularity }
       @memes = Kaminari.paginate_array(@memes)
     end
-    @memes = @memes.page(params[:page]).per(MEMES_PER_PAGE)
+    @memes = @memes.page(params[:page]).per($MEMES_PER_PAGE)
   end
 
   # GET /memes/1
   # GET /memes/1.json
   def show
-    @meme = Meme.find_by_key(params[:id])
     if @meme.user_id
       user = User.find(@meme.user_id)
       if user.username
@@ -41,6 +30,7 @@ class MemesController < ApplicationController
   # GET /memes/new
   def new
     @meme = Meme.new
+    @group = Group.find_by_key(params[:group_id])
     @templates = Template.all
   end
 
@@ -71,8 +61,18 @@ class MemesController < ApplicationController
       result = result.composite!(image_bottom, Magick::CenterGravity, Magick::OverCompositeOp)
     end
 
-    if user_signed_in? and params[:groups]
+    if (user_signed_in? and params[:groups]) or params[:group_id]
       @meme.public = false
+    end
+
+    if params[:group]
+      group = Group.find(params[:group][0])
+    elsif (group_id = params[:group_id])
+      group = Group.find(group_id)
+    end
+
+    if group
+      @meme.group_id = group.id
     end
 
     respond_to do |format|
@@ -98,17 +98,18 @@ class MemesController < ApplicationController
             return
           end
         else
+          # Upload completed.
           if user_signed_in?
-            if params[:groups]
-              params[:groups].each do |id|
-                Group.find(id).memes << @meme
-              end
-            end
             # If the user is signed in then auto add an upvote from them.
             Vote.new(user: current_user, meme: @meme, value: :up).save
           end
+          if group
+            redirect_path = group_meme_path(group, @meme)
+          else
+            redirect_path = meme_path(@meme)
+          end
         end
-        format.html { redirect_to meme_path(@meme), notice: 'Meme was successfully created.' }
+        format.html { redirect_to redirect_path, notice: 'Meme was successfully created.' }
         format.json { render action: 'show', status: :created, location: @meme }
       else
         format.html { render action: 'new' }
@@ -135,10 +136,22 @@ class MemesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def meme_params
+      if params[:meme][:group_id] = 0
+        # The meme is to be public.
+        params[:meme].delete(:group_id)
+      end
       params.require(:meme).permit(:context, :public)
     end
 
     def vote_params
       params.require(:vote).permit(:meme, :user_id, :value)
+    end
+
+    def check_meme_group_permissions
+        @meme = Meme.find_by_key(params[:id])
+        @group = @meme.group
+        if !@group.nil? and (@group.visibility == "private") and (!current_user or (current_user and !current_user.groups.include?(@group)))
+          not_found_error
+        end
     end
 end

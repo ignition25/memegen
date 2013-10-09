@@ -11,10 +11,13 @@
   </div>
   <%= render (user_signed_in? ? "groups/group_modal_form" : "devise/sessions/new_modal_form") %>      
   <div class="col-md-10">
+      <% if @group -%>
+          <h4><small><%= echo_group_visibility(@group) %></small></h4>
+      <% end -%>
       <div class="memes-container">
         <% @memes.each do |meme| %>
           <div class="meme">
-            <a href="<%= meme_path(meme) %>"><img src="<%= getMemePath(meme) %>" class="meme-image" /></a>
+            <a href="<%= meme_path(meme, :group_id => params[:id]) %>"><img src="<%= getMemeImagePath(meme) %>" class="meme-image" /></a>
             <div class="btn-group vote-buttons">
               <% vote = getUserVote meme %>
               <button type="button" class="btn btn-default vote-button<%= ' active' if vote and vote.value == 'down' %>" value="down"><span class="glyphicon glyphicon-thumbs-down"></span></button>              

@@ -19,24 +19,38 @@ module MemesHelper
 		return 'templates/' + template.path
 	end
 
-	def getMemePath meme
+	def getMemeImagePath meme
 		return ENV['S3_BUCKET_URL'] + meme.id.to_s + ".jpg"
 	end
 
 	def getUserGroups
+		groups = []
 		if user_signed_in?
-			return current_user.groups
+			groups.concat(current_user.groups.all)
+		end
+
+		if params[:id]
+			viewing_group = Group.find_by_key(params[:id])
+			if !groups.include? viewing_group
+				groups << viewing_group
+			end
+		end
+
+		return groups
+	end
+
+	def gaware_new_meme_path
+		if params[:group_id]
+			group = Group.find_by_key params[:group_id]
+		elsif params[:id]
+			group = Group.find_by_key params[:id]
+		end
+
+		if group
+			return new_group_meme_path(group)
 		else
-			return []
+			return new_meme_path
 		end
 	end
 
-	def meme_path(meme, options={})
-	  meme_url(meme, options.merge(:only_path => true))
-	end
-
-	def meme_url(meme, options={})
-	  url_for(options.merge(:controller => 'memes', :action => 'show',
-	                        :id => meme.key))
-	end
 end
