@@ -7,7 +7,7 @@ class MemesController < ApplicationController
   # GET /memes
   # GET /memes.json
   def index
-    @memes = Meme.where(:public => true).order("created_at DESC")
+    @memes = Meme.where(:group_id => nil).order("created_at DESC")
     @group = nil
     if params[:sort] and params[:sort] == "popular"
       @memes = @memes.sort{|m1, m2| m2.popularity <=> m1.popularity }
@@ -39,7 +39,6 @@ class MemesController < ApplicationController
   def create
     # TODO(juarez): Add security, sanitize input. Check if template is actually present.
     @meme = Meme.new(meme_params.merge({:key => UUID.new().generate}))
-    meme_id = params[:meme][:id]
 
     if user_signed_in?
       @meme.user_id = current_user.id
@@ -59,20 +58,6 @@ class MemesController < ApplicationController
     if !params[:images][:bottom].empty?
       image_bottom = Magick::Image.read_inline(params[:images][:bottom]).first
       result = result.composite!(image_bottom, Magick::CenterGravity, Magick::OverCompositeOp)
-    end
-
-    if (user_signed_in? and params[:groups]) or params[:group_id]
-      @meme.public = false
-    end
-
-    if params[:group]
-      group = Group.find(params[:group][0])
-    elsif (group_id = params[:group_id])
-      group = Group.find(group_id)
-    end
-
-    if group
-      @meme.group_id = group.id
     end
 
     respond_to do |format|
@@ -103,8 +88,8 @@ class MemesController < ApplicationController
             # If the user is signed in then auto add an upvote from them.
             Vote.new(user: current_user, meme: @meme, value: :up).save
           end
-          if group
-            redirect_path = group_meme_path(group, @meme)
+          if @meme.group
+            redirect_path = group_meme_path(@meme.group, @meme)
           else
             redirect_path = meme_path(@meme)
           end
@@ -136,11 +121,11 @@ class MemesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def meme_params
-      if params[:meme][:group_id] = 0
+      if params[:meme][:group_id] == 0
         # The meme is to be public.
         params[:meme].delete(:group_id)
       end
-      params.require(:meme).permit(:context, :public)
+      params.require(:meme).permit(:context, :group_id)
     end
 
     def vote_params

@@ -55,9 +55,13 @@
         <% end -%>
         </div>
       <% elsif @group -%>
-        <span id="visibility"><%= @group.name %></span>
+          <label class="radio-inline">
+            <%= radio_button_tag "meme[group_id]", @group.id, true %> <%= @group.name %>
+          </label>
       <% else -%>
-        <span id="visibility">Public</span>
+          <label class="radio-inline">
+            <%= radio_button_tag "meme[group_id]", 0, true %> Public
+          </label>
       <% end -%>
     </div>
     <!-- End visibility. -->
