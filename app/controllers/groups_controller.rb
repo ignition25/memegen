@@ -9,7 +9,7 @@ class GroupsController < ApplicationController
 	        format.html { redirect_to root_path, notice: 'Group was successfully created.' }
 	        format.json { render json: { :status => 'success' } }
 	      else
-	        format.html { redirect_to root_path, notice: 'There was an error creating your group, please try again.' }
+	        format.html { redirect_to root_path, :flash => { error: 'There was an error creating your group, please try again.' } } 
 	        format.json { render json: @group.errors, status: :unprocessable_entity }
 	      end
 	  	end
