@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
 		raise ActionController::RoutingError.new('Not Found')
 	end
 
+	def forbidden_access_error
+		raise ActionController::RoutingError.new('Forbidden')
+	end 
+
 	def update_sanitized_params
 	  devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:email, :password, :password_confirmation, :username, :remember_me)}
 	end

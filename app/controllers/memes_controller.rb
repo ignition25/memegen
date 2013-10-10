@@ -1,7 +1,7 @@
 require 'RMagick'
 
 class MemesController < ApplicationController
-  before_action :set_meme, only: [:destroy]
+  before_action :check_meme_destroy_permission, only: [:destroy]
   before_action :check_meme_group_permissions, only: [:show]
 
   # GET /memes
@@ -139,4 +139,12 @@ class MemesController < ApplicationController
           not_found_error
         end
     end
+
+    def check_meme_destroy_permission
+      @meme = Meme.find_by_key(params[:id])
+      if !current_user or @meme.user_id != current_user.id
+        forbidden_access_error
+      end
+    end
+
 end
