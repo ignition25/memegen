@@ -38,7 +38,7 @@ class MemesController < ApplicationController
   # POST /memes.json
   def create
     # TODO(juarez): Add security, sanitize input. Check if template is actually present.
-    @meme = Meme.new(meme_params.merge({:key => UUID.new().generate}))
+    @meme = Meme.new(meme_params.merge({:key => UUID.new().generate, :user_id => current_user}))
 
     if user_signed_in?
       @meme.user_id = current_user.id
@@ -108,7 +108,7 @@ class MemesController < ApplicationController
   def destroy
     @meme.destroy
     respond_to do |format|
-      format.html { redirect_to memes_url }
+      format.html { redirect_to memes_url, notice: 'Meme was successfully deleted.' }
       format.json { head :no_content }
     end
   end
@@ -116,12 +116,12 @@ class MemesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_meme
-      @meme = Meme.find(params[:id])
+      @meme = Meme.find_by_key(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def meme_params
-      if params[:meme][:group_id] == 0
+      if params[:meme][:group_id] == "0" or params[:meme][:group_id] == 0
         # The meme is to be public.
         params[:meme].delete(:group_id)
       end

@@ -16,7 +16,7 @@
 	<%= hidden_field_tag 'vote[meme_id]', @meme.id %>
 	<%= hidden_field_tag 'vote[value]' %>
 <% end %>
-<div>
+<div class="meme-meta-data">
 	<% if @author %>
 		<p>
 		  <strong>Author:</strong>
@@ -29,4 +29,7 @@
 	</p>
 </div>
 
-<%= link_to "Back", :back, class: "btn btn-default" %>
+<% if user_signed_in? and @meme.user_id == current_user.id %>
+	<%= link_to "Delete Meme", @meme, :method => :delete, :class => "btn btn-danger meme-actions", :confirm => "Are you sure you want to delete this meme?" %>
+<% end %>
+<%= link_to "Back", :back, class: "btn btn-default meme-actions" %>

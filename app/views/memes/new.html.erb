@@ -48,7 +48,7 @@
           <label class="radio-inline">
             <%= radio_button_tag "meme[group_id]", 0, ((!@group) ? true : false) %> Public
           </label>
-        <% current_user.groups.each do |group| -%>
+        <% current_user.groups.each_with_index do |group, index| -%>
           <label class="radio-inline">
             <%= radio_button_tag "meme[group_id]", group.id, ((@group and @group.id == group.id) ? true : false) %> <%= group.name %>
           </label>

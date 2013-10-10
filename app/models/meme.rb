@@ -1,6 +1,7 @@
 class Meme < ActiveRecord::Base
 	has_many :votes
 	belongs_to :group
+	belongs_to :user
 
 	def popularity
 		# TODO(juarez): Weight by when the votes were created as opposed to the meme.

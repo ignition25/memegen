@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131009225947) do
+ActiveRecord::Schema.define(version: 20131010215051) do
 
   create_table "groups", force: true do |t|
     t.string "name"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20131009225947) do
   end
 
   add_index "groups", ["key"], name: "index_groups_on_key", unique: true, using: :btree
+  add_index "groups", ["name"], name: "index_groups_on_name", unique: true, using: :btree
 
   create_table "groups_users", force: true do |t|
     t.integer "group_id"
