@@ -36,14 +36,14 @@ function init() {
 	$('input#content\\[top\\]').keyup(function() {
 		drawText(topTextContext)
 		// Send over each layer with the POST request.
-		var base64Image = topTextCanvas.toDataURL("image/jpeg");
+		var base64Image = topTextCanvas.toDataURL("image/png");
 		$('#images_top').val(base64Image.substr(base64Image.indexOf(',')));
 	});
 
 	$('input#content\\[bottom\\]').keyup(function() {
 		drawText(bottomTextContext)
 		// Send over each layer with the POST request.
-		var base64Image = bottomTextCanvas.toDataURL("image/jpeg");
+		var base64Image = bottomTextCanvas.toDataURL("image/png");
 		$('#images_bottom').val(base64Image.substr(base64Image.indexOf(',')));
 	});
 
@@ -126,7 +126,7 @@ imageObj.onload = function() {
 	imageContext.drawImage(imageObj, 0, 0, imageObj.width, imageObj.height);
 	drawText(bottomTextContext);
 	drawText(topTextContext);
-	var base64Image = imageCanvas.toDataURL("image/jpeg");
+	var base64Image = imageCanvas.toDataURL("image/png");
 	$('#images_bg').val(base64Image.substr(base64Image.indexOf(',')));
 };
 
