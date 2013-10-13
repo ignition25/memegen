@@ -94,21 +94,22 @@ function init() {
 		}, function(){
 			$(this).css({'color': '#999999'})
 		}).css({'cursor': 'pointer'});
-		$('.group-visibility small').click(function(){
-			var container = this;
 
-			$(this).popover({
-				title: "Share this group",
-				content: "<input type='text' value='" + window.location + "' readonly/>",
-				html: true,
-				container: '.group-visibility',
-				callback: function() {
-					$('.popover input').get(0).select();
-					$('.popover input').click(function(){
-						$(this).get(0).select();						
-					});
-				}
-			});
+		$('.group-visibility small').popover({
+			title: "Share this group",
+			content: "<input type='text' value='" + window.location + "' readonly/>",
+			html: true,
+			container: '.group-visibility',
+			callback: function() {
+				$('.popover input').get(0).select();
+				$('.popover input').click(function(){
+					$(this).get(0).select();						
+				});
+			}
+		});
+
+		$('.group-visibility small').click(function(){
+			$(this).popover();
 		});
 	}
 
