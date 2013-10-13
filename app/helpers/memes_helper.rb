@@ -16,7 +16,7 @@ module MemesHelper
 	end
 
 	def getTemplatePath template
-		return 'templates/' + template.path
+		return ENV['S3_TEMPLATE_URL'] + template.path
 	end
 
 	def getMemeImagePath meme

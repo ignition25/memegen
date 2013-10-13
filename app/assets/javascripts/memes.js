@@ -4,6 +4,15 @@ var BOTTOM = 1;
 var imageCanvas, topTextCanvas, bottomTextCanvas, imageContext, topTextContext, bottomTextContext;
 var imageObj = new Image();
 
+// Add callback option to popover.
+var tmp = $.fn.popover.Constructor.prototype.show;
+$.fn.popover.Constructor.prototype.show = function () {
+  tmp.call(this);
+  if (this.options.callback) {
+    this.options.callback();
+  }
+}
+
 function init() {
 	// Init canvases.
 	imageCanvas = document.getElementById("imageCanvas");
@@ -27,14 +36,14 @@ function init() {
 	$('input#content\\[top\\]').keyup(function() {
 		drawText(topTextContext)
 		// Send over each layer with the POST request.
-		var base64Image = topTextCanvas.toDataURL("image/png");
+		var base64Image = topTextCanvas.toDataURL("image/jpeg");
 		$('#images_top').val(base64Image.substr(base64Image.indexOf(',')));
 	});
 
 	$('input#content\\[bottom\\]').keyup(function() {
 		drawText(bottomTextContext)
 		// Send over each layer with the POST request.
-		var base64Image = bottomTextCanvas.toDataURL("image/png");
+		var base64Image = bottomTextCanvas.toDataURL("image/jpeg");
 		$('#images_bottom').val(base64Image.substr(base64Image.indexOf(',')));
 	});
 
@@ -78,6 +87,31 @@ function init() {
 	$('.template').click(function(){
 		$('#template-name').text($(this).attr('title'));
 	});
+
+	if($('.group-link').length > 0){
+		$('.group-visibility small').hover(function(){
+			$(this).css({'color': '#47a447'});
+		}, function(){
+			$(this).css({'color': '#999999'})
+		}).css({'cursor': 'pointer'});
+		$('.group-visibility small').click(function(){
+			var container = this;
+
+			$(this).popover({
+				title: "Share this group",
+				content: "<input type='text' value='" + window.location + "' readonly/>",
+				html: true,
+				container: '.group-visibility',
+				callback: function() {
+					$('.popover input').get(0).select();
+					$('.popover input').click(function(){
+						$(this).get(0).select();						
+					});
+				}
+			});
+		});
+	}
+
 	
 }
 
@@ -87,11 +121,12 @@ $(window).bind('page:change', init);
 $(document).ready(init);
 
 imageObj.onload = function() {
+	this.setAttribute('crossOrigin', 'anonymous');
 	setCanvasDimensions(this);
 	imageContext.drawImage(imageObj, 0, 0, imageObj.width, imageObj.height);
 	drawText(bottomTextContext);
 	drawText(topTextContext);
-	var base64Image = imageCanvas.toDataURL("image/png");
+	var base64Image = imageCanvas.toDataURL("image/jpeg");
 	$('#images_bg').val(base64Image.substr(base64Image.indexOf(',')));
 };
 
