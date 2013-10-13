@@ -4,7 +4,7 @@ Memegen::Application.routes.draw do
   resources :groups, only: [:show, :create]
 
   resources :groups do
-    resources :memes, only: [:show, :new, :create]
+    resources :memes, only: [:show, :new, :create, :destroy]
   end
 
   root to: 'memes#index'
