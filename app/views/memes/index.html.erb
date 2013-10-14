@@ -6,7 +6,7 @@
       <% getUserGroups.each do |group| %>
         <%= nav_group_button group %>
       <% end %>
-      <a type="button" data-toggle="modal" href="#new-group" class="btn btn-primary">+ Group</a>
+      <a type="button" data-toggle="modal" href="#new-group" class="btn btn-primary">+ New Group</a>
     </div>
   </div>
   <%= render (user_signed_in? ? "groups/group_modal_form" : "devise/sessions/new_modal_form") %>      
