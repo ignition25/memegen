@@ -61,7 +61,7 @@
       <% end %>
       <div class="form-group">
         <label for="meme_group_id">Post to Group:</label> 
-        <select class="form-control" name="meme[group_id]" id="meme_group_id">
+        <select class="form-control" name="meme[group_id]" id="meme_group_id" style="width: 200px;">
           <option value="0">Public (All Users)</option>
           <% selected_group_id = ((@group) ? @group.id : -1) %>
           <% @groups.each do |group| -%>
