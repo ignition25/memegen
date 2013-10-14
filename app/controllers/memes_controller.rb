@@ -142,7 +142,7 @@ class MemesController < ApplicationController
 
     def check_meme_destroy_permission
       @meme = Meme.find_by_key(params[:id])
-      if !current_user or @meme.user_id != current_user.id
+      if !current_user or (@meme.user_id != current_user.id and !current_user.admin)
         forbidden_access_error
       end
     end
