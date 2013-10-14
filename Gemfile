@@ -15,6 +15,8 @@ gem 'aws-sdk'
 #Database.
 gem 'pg'
 
+gem 'newrelic_rpm', '~> 3.6.7'
+
 group :production do
     # Production db.
     gem 'rails_12factor'
