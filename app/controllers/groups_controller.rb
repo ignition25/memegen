@@ -6,7 +6,7 @@ class GroupsController < ApplicationController
 		current_user.groups << @group
 	    respond_to do |format|
 	      if @group.save
-	        format.html { redirect_to root_path, notice: 'Group was successfully created.' }
+	        format.html { redirect_to group_path(@group), notice: 'Group was successfully created.' }
 	        format.json { render json: { :status => 'success' } }
 	      else
 	      	error = ""

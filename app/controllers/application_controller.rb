@@ -31,4 +31,13 @@ class ApplicationController < ActionController::Base
 	def meme_path(meme)
 		return memes_path << "/" << meme.key
 	end
+
+	def group_path(group, options={})
+	  group_url(group, options.merge(:only_path => true))
+	end
+
+	def group_url(group, options={})
+	  url_for(options.merge(:controller => 'groups', :action => 'show',
+	                        :id => group.key))
+	end
 end

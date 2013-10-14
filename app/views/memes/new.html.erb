@@ -2,6 +2,8 @@
 	Choose a template
 <% end %>
 
+<%= render (user_signed_in? ? "groups/group_modal_form" : "devise/sessions/new_modal_form") %>
+
 <%= form_for([@group, @meme]) do |f| %>
   <% if @meme.errors.any? %>
     <div id="error_explanation">
@@ -42,27 +44,34 @@
       <input type="text" name="content[bottom]" id="content[bottom]" />
     </div>
     <!-- Visibility -->
-    <div class="visibility" style="margin-top: 15px;"><strong>Post to:</strong> 
-      <% if current_user.try(:groups) -%>
-        <div class="group-checkboxes">
-          <label class="radio-inline">
-            <%= radio_button_tag "meme[group_id]", 0, ((!@group) ? true : false) %> Public
-          </label>
-        <% current_user.groups.each_with_index do |group, index| -%>
-          <label class="radio-inline">
-            <%= radio_button_tag "meme[group_id]", group.id, ((@group and @group.id == group.id) ? true : false) %> <%= group.name %>
-          </label>
-        <% end -%>
-        </div>
-      <% elsif @group -%>
-          <label class="radio-inline">
-            <%= radio_button_tag "meme[group_id]", @group.id, true %> <%= @group.name %>
-          </label>
-      <% else -%>
-          <label class="radio-inline">
-            <%= radio_button_tag "meme[group_id]", 0, true %> Public
-          </label>
-      <% end -%>
+
+    <div class="visibility" style="margin: 20px 0 20px 0;">
+      <% if @groups.empty? %>
+        <h4>
+          <small>
+            You don't have any groups!
+            <% if !user_signed_in? -%> 
+              <a data-toggle="modal" href="#new-group">Sign in</a> to create one.
+            <% else -%>
+              <a data-toggle="modal" href="#new-group"> Create one</a>?
+            <% end %>
+          </small>
+        </h4>
+        <fieldset disabled>
+      <% end %>
+      <div class="form-group">
+        <label for="meme_group_id">Post to Group:</label> 
+        <select class="form-control" name="meme[group_id]" id="meme_group_id">
+          <option value="0">Public (All Users)</option>
+          <% selected_group_id = ((@group) ? @group.id : -1) %>
+          <% @groups.each do |group| -%>
+            <option value="<%= group.id %>" id="meme_group_id_<%= group.id %>" <% if group.id == selected_group_id -%>selected<% end -%>><%= group.name %></option>
+          <% end -%>
+        </select>
+      </div>
+      <% if @groups.empty? %>
+        </fieldset>
+      <% end %>
     </div>
     <!-- End visibility. -->
     <%= hidden_field_tag 'images[bg]' %>

@@ -31,6 +31,13 @@ class MemesController < ApplicationController
   def new
     @meme = Meme.new
     @group = Group.find_by_key(params[:group_id])
+    if current_user.try(:groups)
+      @groups = current_user.groups
+    elsif @group
+      @groups = [@group]
+    else
+      @groups = []
+    end
     @templates = Template.all
   end
 
@@ -77,7 +84,7 @@ class MemesController < ApplicationController
             # Upload failed, alert the user and return to the previous page.
             puts 'Error uploading meme to S3 on 2nd and final attempt.'
             puts ex.message
-            flash[:error] = "We're very sorry, there was an error saving your meme. Please try again."
+            flash[:error] = "Oh noes! There was an error saving your meme, please try again."
             @meme.destroy
             redirect_to :back
             return

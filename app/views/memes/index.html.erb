@@ -14,7 +14,7 @@
       <a type="button" data-toggle="modal" href="#new-group" class="btn btn-primary">+ New Group</a>
     </div>
   </div>
-  <%= render (user_signed_in? ? "groups/group_modal_form" : "devise/sessions/new_modal_form") %>      
+  <%= render (user_signed_in? ? "groups/group_modal_form" : "devise/sessions/new_for_group_modal_form") %>      
   <div class="col-md-10">
       <% if @group -%>
           <div class="group-visibility" style="display: inline;"><h4><small><%= echo_group_visibility(@group) %><% if @group.visibility == 'link_only' %> <i class="group-link glyphicon glyphicon-link"></i><% end %></small></h4></div>
