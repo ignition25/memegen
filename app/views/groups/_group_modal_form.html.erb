@@ -3,7 +3,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Create a New Group</h4>
+          <h4 class="modal-title">Create a New Meme Group</h4>
         </div>
 		<%= form_tag '/groups', method: :post, id: 'new-group-form', class: "form-horizontal signin-form" do %>
 	        <div class="modal-body">
@@ -13,6 +13,7 @@
 					        <%= text_field_tag 'group[name]', nil, class: "form-control", :autofocus => true, :placeholder => "Group Name" %>
 					    </div>
 					</div>
+					<% if false # Group visibility options are hidden for now. Default is 'link_only' %>
 					  <div class="form-group">
 					    <%= label_tag 'group[visibility]', 'Visibility', class: "col-lg-3 control-label" %>
 					    <div class="col-lg-9">
@@ -24,6 +25,10 @@
 						    </div>
 					    </div>
 					  </div>
+					<% end %>
+					<div class="form-group">
+						<label class="col-lg-9 control-label"><h4><small style="color: #666666;">Only people with the link will have access to your group.</small></h4></label>
+					</div>
 			</div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

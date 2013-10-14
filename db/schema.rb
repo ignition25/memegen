@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131010215051) do
+ActiveRecord::Schema.define(version: 20131014002716) do
 
   create_table "groups", force: true do |t|
     t.string "name"
-    t.string "visibility"
+    t.string "visibility", default: "link_only"
     t.string "key"
   end
 
