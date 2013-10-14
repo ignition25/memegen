@@ -53,4 +53,12 @@ module MemesHelper
 		end
 	end
 
+	def parse_context context
+		if context =~ /(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/
+			return content_tag(:a, context, href: context)
+		else
+			return context
+		end
+	end
+
 end
