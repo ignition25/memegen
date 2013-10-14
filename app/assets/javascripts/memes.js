@@ -26,10 +26,18 @@ function init() {
 		bottomTextContext = bottomTextCanvas.getContext('2d');
 	}
 
+	imageObj.crossOrigin = 'anonymous';
+	console.log($(imageObj));
+
 	$('.template').click(function(){
-		if (imageObj.src != this.src) {
+		$('#template-name').text($(this).attr('title'));
+
+		// CORS workaround.
+		uncachedSrc = this.src + "?_";
+		
+		if (imageObj.src != uncachedSrc) {
 			imageContext.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
-			imageObj.src = this.src;			
+			imageObj.src = uncachedSrc;			
 		}
 	});
 
@@ -82,10 +90,6 @@ function init() {
 		       	}
 	       	}
      	});
-	});
-
-	$('.template').click(function(){
-		$('#template-name').text($(this).attr('title'));
 	});
 
 	if($('.group-link').length > 0){

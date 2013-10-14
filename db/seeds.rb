@@ -41,8 +41,29 @@ templates = Template.create([{ title: 'Overachiever', path: '1bhz.jpg' },
 	{ title: 'Overly Attached Girlfriend', path: 'overly-attached-girlfriend-meme-template.jpg' }
 	])
 
-# Load next seed file.
-load "#{Rails.root}/db/seeds2.rb"
-load "#{Rails.root}/db/seeds3.rb"
+templates2 = Template.create([{ title: 'Philosoraptor', path: '1bgs.jpg' },
+	{ title: 'Unhelpful Teacher', path: '25wd.jpg' },
+	{ title: 'And Then We Said', path: 'jrj7.jpg' },
+	{ title: 'Put It Somewhere Else Patrick', path: '1bil.jpg' },
+	{ title: 'Say That Again I Dare You', path: '2nuc.jpg' },
+	{ title: 'One Does Not Simply', path: '1bij.jpg' },
+	{ title: 'X All The Y', path: '1bh9.jpg' },
+	{ title: 'Am I The Only One Around Here', path: '5kdc.jpg' },
+	{ title: 'Confession Bear', path: '25wb.jpg' },
+	{ title: 'Joseph Ducreux', path: '1bhb.jpg' },
+	{ title: 'Insanity Wolf', path: '1bgu.jpg' },
+	{ title: 'I Should Buy A Boat Cat', path: 'tau4.jpg' },
+	{ title: 'Chuck Norris Approves', path: '566w.jpg' },
+	{ title: 'What Really Grinds My Gears', path: '7n5z.jpg' },
+	{ title: 'Ghetto Robe Guy', path: '18gg.jpg' },
+	{ title: 'No Patrick', path: 'nopatrick.jpg' },
+	{ title: 'WTF Jacky Chan', path: 'wtfjackychan.jpg' },
+	{ title: 'Upvote Obama', path: '685.png' },
+	{ title: 'Cash Catz', path: '11b.jpg' },
+	{ title: 'Get Out of the Way', path: 'catdriving1.jpg' }])
+
+templates3 = Template.create([{ title: 'Do This They Said', path: '4e7.jpeg' },
+	{ title: 'Ryan Frank', path: 'ryanfrank.jpg' },
+	{ title: 'Chad Butler Bitches', path: 'chad.jpg'}])
 
 puts "Seeding complete."
