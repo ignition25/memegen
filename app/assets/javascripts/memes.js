@@ -26,7 +26,7 @@ function init() {
 		bottomTextContext = bottomTextCanvas.getContext('2d');
 	}
 
-	imageObj.crossOrigin = 'anonymous';
+	// imageObj.crossOrigin = '';
 	console.log($(imageObj));
 
 	$('.template').click(function(){
@@ -37,7 +37,10 @@ function init() {
 		
 		if (imageObj.src != uncachedSrc) {
 			imageContext.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
-			imageObj.src = uncachedSrc;			
+			imageObj.src = uncachedSrc;	
+			if ($("#user-uploaded-img").src.length > 0) {
+				resetFileInput();				
+			}
 		}
 	});
 
@@ -83,10 +86,7 @@ function init() {
        		     	memeContainer.find(".active").removeClass("active");
 			     	button.addClass("active"); 
 		       	} else if (data.status == "not_signed_in") {
-		       		$('#flash_js').html('You must be <a href="/users/sign_in"><b>signed in</b></a> to vote!');
-		       		$('.js-alert').removeClass('alert-success');
-		       		$('.js-alert').addClass('alert-danger');
-		       		$('.js-alert').show();
+		       		flashAlert('You must be <a href="/users/sign_in"><b>signed in</b></a> to vote!');
 		       	}
 	       	}
      	});
@@ -117,6 +117,27 @@ function init() {
 		});
 	}
 
+	$('#user-uploaded-img').bind('load', function() {
+	    imageObj.src = this.src;
+	});
+
+	$("#user-template").change(function(){
+		var filename = $(this).val();
+		if (filename) {
+			var startIndex = (filename.indexOf('\\') >= 0 ? filename.lastIndexOf('\\') : filename.lastIndexOf('/'));
+			var filename = filename.substring(startIndex);
+			if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+				filename = filename.substring(1);
+			}
+			$("#filename").text(filename);
+			readImage(this);
+		}
+
+	});
+
+	$("#upload-template-btn").click(function(){
+		$("#user-template").click();
+	});
 	
 }
 
@@ -126,7 +147,10 @@ $(window).bind('page:change', init);
 $(document).ready(init);
 
 imageObj.onload = function() {
-	this.setAttribute('crossOrigin', 'anonymous');
+//	this.setAttribute('crossOrigin', 'anonymous');
+	if (checkImageDimensions(this) == false) {
+		return;
+	}
 	setCanvasDimensions(this);
 	imageContext.drawImage(imageObj, 0, 0, imageObj.width, imageObj.height);
 	drawText(bottomTextContext);
@@ -135,8 +159,37 @@ imageObj.onload = function() {
 	$('#images_bg').val(base64Image.substr(base64Image.indexOf(',')));
 };
 
+
+function readImage(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+        	$("#user-uploaded-img").attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function checkImageDimensions(img) {
+	if (img.width > 700 || img.height > 700) {
+		flashAlert('Your image may be no larger than 700 x 700 pixels!');
+		resetFileInput();
+		return false;
+	}
+	return true;
+}
+
+function resetFileInput() {
+	$('#user-template').wrap('<form>').closest('form').get(0).reset();
+	$('#user-template').unwrap();
+	$('#filename').text("");
+}
+
 // Sets dimensions of canvases to match that of an image.
 function setCanvasDimensions(img) {
+
+	console.log(img.width);
+	console.log(img.height);
 	imageContext.canvas.width = img.width;
 	topTextContext.canvas.width = img.width;
 	bottomTextContext.canvas.width = img.width;
@@ -202,6 +255,13 @@ function measureNumLines(context, words, maxWidth, lineHeight) {
 	}
 
 	return numLines;
+}
+
+function flashAlert(msg) {
+	$('#flash_js').html(msg);
+	$('.js-alert').removeClass('alert-success');
+	$('.js-alert').addClass('alert-danger');
+	$('.js-alert').show();
 }
 
 function wrapText(context, text, x, y, maxWidth, lineHeight, orientation) {

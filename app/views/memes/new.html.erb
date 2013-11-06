@@ -1,5 +1,9 @@
 <%= content_for :page_header do %>
-	Choose a template
+	Choose a template 
+    <input style="margin-left: 10px;" class="btn btn-danger" id="upload-template-btn" value="Upload a Template" />
+    <input type="file" accept="image/jpeg,image/png,image/jpg" style="display:none;" id="user-template" />
+    <span style="font-size: 12px; color: #999999;"id="filename"></span>
+    <img id="user-uploaded-img" style="display:none;" />
 <% end %>
 
 <%= render (user_signed_in? ? "groups/group_modal_form" : "devise/sessions/new_modal_form") %>
