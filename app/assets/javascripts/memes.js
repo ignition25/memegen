@@ -138,6 +138,10 @@ function init() {
 	$("#upload-template-btn").click(function(){
 		$("#user-template").click();
 	});
+
+	$('.alert .close').on('click', function (e) {
+		$(this).parent().hide();
+	});
 	
 }
 
@@ -171,11 +175,20 @@ function readImage(input) {
 }
 
 function checkImageDimensions(img) {
-	if (img.width > 700 || img.height > 700) {
-		flashAlert('Your image may be no larger than 700 x 700 pixels!');
+	if (img.width > 700 && img.height > 700) {
+		flashAlert('Your image may be no larger than 700 x 700 pixels! Yours is ' + img.width + ' x ' + img.height + '.');
+		resetFileInput();
+		return false;
+	} else if(img.width > 700) {
+		flashAlert('The width of your image (' + img.width + 'px) exceeds the maxiumum allowed width of 700px!');
+		resetFileInput();
+		return false;
+	} else if (img.height > 700) {
+		flashAlert('The height of your image (' + img.height + 'px) exceeds the maxiumum allowed height of 700px!');
 		resetFileInput();
 		return false;
 	}
+
 	return true;
 }
 
