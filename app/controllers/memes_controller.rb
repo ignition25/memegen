@@ -20,9 +20,9 @@ class MemesController < ApplicationController
   # GET /memes/1.json
   def show
     if @meme.user_id
-      user = User.find(@meme.user_id)
-      if user.username
-        @author = user.username
+      @author = User.find(@meme.user_id)
+      if @author.username
+        @author_name = @author.username
       end
     end
   end

@@ -1,0 +1,19 @@
+<div class="memes-container">
+  <% memes.each do |meme| %>
+    <div class="meme">
+      <a href="<%= meme_path(meme, :group_id => params[:id]) %>"><img src="<%= getMemeImagePath(meme) %>" class="meme-image" /></a>
+      <div class="btn-group vote-buttons">
+        <% vote = getUserVote meme %>
+        <button type="button" class="btn btn-default vote-button<%= ' active' if vote and vote.value == 'down' %>" value="down"><span class="glyphicon glyphicon-thumbs-down"></span></button>              
+        <button type="button" class="btn btn-default vote-button<%= ' active' if vote and vote.value == 'up' %>" value="up"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+        <button type="button" class="btn btn-default vote-count" id="vote-count">+<%= getVoteCount meme %></button>
+      </div>
+      <!-- Hidden vote forms. -->
+      <%= form_tag '/vote', method: :post, style: 'display:inline;', id: 'vote_form' do %>
+        <%= hidden_field_tag 'vote[user_id]', current_user.id if user_signed_in? %>
+        <%= hidden_field_tag 'vote[meme_id]', meme.id %>
+        <%= hidden_field_tag 'vote[value]' %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

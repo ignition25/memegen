@@ -1,0 +1,8 @@
+<%= content_for :title do %>
+	<%= @user.username %>
+<% end %>
+<h2 style="border-bottom: 1px solid #dddddd; margin-bottom: 20px;"><%= @user.username %></h2>
+<h4><%= @favorites.size.to_s + ((@favorites.size == 1) ? " Favorite" : " Favorites") %></h4>
+<%= render :partial => 'memes/memes', :locals => { :memes => @favorites } %>
+<h4><%= @memes.size.to_s + ((@memes.size == 1) ? " Meme" : " Memes") %></h4>
+<%= render :partial => 'memes/memes', :locals => { :memes => @memes } %>
