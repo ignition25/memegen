@@ -146,7 +146,7 @@ function init() {
 }
 
 // For turbolinks.
-$(window).bind('page:change', init);
+// $(window).bind('page:change', init);
 
 $(document).ready(init);
 
