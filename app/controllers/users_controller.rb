@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 				end
 			end
 		end
-		
-		@memes = @user.memes.order("created_at DESC")
+
+		@memes = @user.memes.where(:group_id => nil).order("created_at DESC")
 	end
 end
