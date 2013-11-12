@@ -149,20 +149,16 @@ a.nav-button {
   }
 }
 
-@media (max-width: 1200px) {
-  .memes-container {
-    .meme-image {
-      max-width: 44%;
-    }
+@media (max-width: 480px) {
+  .memes-container .meme {
+    max-width: 100%;
+    margin-bottom: 40px;
   }
+
 }
 
-@media (max-width: 800px) {
-  .memes-container {
-    .meme-image {
-      max-width: 100%;
-    }
-  }
+.left-nav {
+  margin-bottom: 40px;
 }
 
 .signin-form input[type="password"],
@@ -233,4 +229,23 @@ a.feedback-link {
 
 .meme-container {
   float: left;
+  img {
+    max-width: 100%;    
+  }
+  margin-bottom: 40px;
+}
+
+.user-memes {
+  .memes-container {
+    max-height: 600px;
+    overflow: auto;
+
+    .meme {
+      max-width: 17.138354%;
+    }
+  }
+
+  h4 {
+    margin-bottom: 25px;
+  }
 }
