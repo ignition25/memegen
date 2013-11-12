@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 		@favorites = []
 		@user.votes.order("updated_at DESC").each do |vote|
 			if vote.value == 'up'
-				if !(meme = Meme.find_all_by_id(vote.meme_id).first).nil? && meme.user_id != @user.id
+				if !(meme = Meme.find_all_by_id(vote.meme_id).first).nil? && meme.user_id != @user.id && meme.group_id == nil
 					@favorites << meme
 				end
 			end
