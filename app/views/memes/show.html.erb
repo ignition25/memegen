@@ -1,5 +1,7 @@
 <% content_for :head do %>
 	<meta property="twitter:card" content="photo">
+	<meta name="twitter:domain" content="Memeosa.com">
+	<meta name="twitter:image:src" content="<%= getMemeImagePath(@meme) %>">
 	<meta property="og:image" content="<%= getMemeImagePath(@meme) %>">
 <% end %>
 <div class="row">
