@@ -19,7 +19,7 @@
       <% if @group -%>
           <div class="group-visibility" style="display: inline;"><h4><small><%= echo_group_visibility(@group) %><% if @group.visibility == 'link_only' %> <i class="group-link glyphicon glyphicon-link"></i><% end %></small></h4></div>
       <% end -%>
-        <%= render :partial => 'memes', :locals => { :memes => @memes } %>
+        <%= render :partial => 'memes/memes', :locals => { :memes => @memes } %>
       <%= paginate @memes %>
     <br>
   </div>
