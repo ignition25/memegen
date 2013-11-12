@@ -1,3 +1,7 @@
+<% content_for :head do %>
+	<meta property="twitter:card" content="photo">
+	<meta property="og:image" content="<%= getMemeImagePath(@meme) %>">
+<% end %>
 <div class="row">
 	<div class="col-md-6">
 		<div class="meme-container">
