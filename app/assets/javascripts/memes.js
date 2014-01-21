@@ -233,11 +233,7 @@ function drawText(context) {
 		context.fillStyle = 'white';
 		context.strokeStyle = 'black'
 		context.lineWidth = 2;
-		var lineHeight = 50;
-		if (navigator.platform == "Linux") {
-			// Linux uses closer spacing.
-			lineHeight = 52;
-		}
+		var lineHeight = 54;
 		wrapText(context, text, x, y, context.canvas.width, lineHeight, orientation);
 	}
 }
