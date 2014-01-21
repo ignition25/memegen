@@ -4,6 +4,7 @@
 html,
 body {
   height: 100%;
+  margin-top: 51px;
   /* The html and body elements cannot have any padding or margin. */
 }
 
@@ -137,7 +138,7 @@ a.nav-button {
 
 @media (min-width: 1441px) {
   .meme {
-    max-width: 22.13835443%;
+    max-width: 17%;
     margin: 0 2.597402597% 2.597402597% 0;
   }
 }

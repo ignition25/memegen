@@ -19,7 +19,7 @@
 <body>
 
 <!-- Static navbar -->
-    <div class="navbar navbar-default navbar-static-top">
+    <div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -27,22 +27,36 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/"><%= image_tag "logo.png", width: 226, height: 36 %></a>
+          <a class="navbar-brand" href="/"><%= image_tag "logo.png", style: "max-height: 18px;" %> <!-- width: 226, height: 36 --></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-          <%= link_to "Leave Feedback", "https://docs.google.com/forms/d/1hmA3Q97SfMgazUl0Z7m0xyKYcKJogm9WZuyEdwVdILk/viewform", class: "feedback-link" %>
+          <!--<%= link_to "Leave Feedback", "https://docs.google.com/forms/d/1hmA3Q97SfMgazUl0Z7m0xyKYcKJogm9WZuyEdwVdILk/viewform", class: "feedback-link" %>-->
           	<!-- Main nav list items here. -->
-            <!-- <li class="active"><a href="#">Home</a></li> -->
+            <%= nav_newest_link 'Newest', root_path %>
+            <%= nav_sort_link 'Popular', root_path << "popular", "popular" %>
+            <!-- Groups dropdown. -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Your Groups <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <% userGroups = getUserGroups %>
+                <li><a data-toggle="modal" href="#new-group">Create One?</a></li>
+                <% if userGroups.length > 0 %>
+                  <li class="divider"></li>
+                <% end %>
+                <% userGroups.each do |group| %>
+                  <%= nav_group_link group %>
+                <% end %>
+              </ul>
+            </li>
+            <li><a href="<%= gaware_new_meme_path %>">Create Meme</a></li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-          <!-- Right nav list items here. -->
+         <ul class="nav navbar-nav navbar-right"> 
           		<% if !user_signed_in? %>
-	            	<li><a href="<%= new_user_session_path %>" class="nav-button"><input type="button" class="btn btn-default" value="Sign In"></a></li>
+	            	<li><a href="<%= new_user_session_path %>">Sign In</a></li>
             	<% else %>
-            		<li><a href="<%= destroy_user_session_path %>" class="nav-button"><input type="button" class="btn btn-default" value="Sign Out"></a></li>
+            		<li><a href="<%= destroy_user_session_path %>">Sign Out</a></li>
             	<% end %>
-            	<li><a href="<%= gaware_new_meme_path %>" class="nav-button"><input type="button" class="btn btn-success" value="+ New Meme"></a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -71,5 +85,7 @@
         <br>Memeosa &copy; 2013 by <%= link_to "Cam Juarez", "http://camjuarez.com" %>.</p>
       </div>
     </div>
+    <!-- New group modal / sign in form -->
+    <%= render (user_signed_in? ? "groups/group_modal_form" : "devise/sessions/new_for_group_modal_form") %>  
 </body>
 </html>

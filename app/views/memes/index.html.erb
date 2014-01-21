@@ -3,19 +3,8 @@
     Popular
   <% end %>
 <% end %>
-<div class="row">
-  <div class="col-md-2">
-    <div class="btn-group-vertical left-nav">
-      <%= nav_newest_button 'Newest', root_path %>
-      <%= nav_sort_button 'Popular', root_path << "popular", "popular" %>
-      <% getUserGroups.each do |group| %>
-        <%= nav_group_button group %>
-      <% end %>
-      <a type="button" data-toggle="modal" href="#new-group" class="btn btn-primary">+ New Group</a>
-    </div>
-  </div>
-  <%= render (user_signed_in? ? "groups/group_modal_form" : "devise/sessions/new_for_group_modal_form") %>      
-  <div class="col-md-10">
+<div class="row"> 
+  <div class="col-md-12">
       <% if @group -%>
           <div class="group-visibility" style="display: inline;"><h4><small><%= echo_group_visibility(@group) %><% if @group.visibility == 'link_only' %> <i class="group-link glyphicon glyphicon-link"></i><% end %></small></h4></div>
       <% end -%>
@@ -23,4 +12,12 @@
       <%= paginate @memes %>
     <br>
   </div>
+<!-- 
+  <div class="col-md-1">
+    <div class="btn-group-vertical left-nav">
+
+      <a href="<%= gaware_new_meme_path %>" class="btn btn-danger">+ New Meme</a>
+      <a type="button" data-toggle="modal" href="#new-group" class="btn btn-primary">+ New Group</a>
+    </div>
+  </div>    --> 
 </div>

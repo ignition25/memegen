@@ -24,22 +24,6 @@ module MemesHelper
 		return ENV['S3_BUCKET_URL'] + meme.id.to_s + ".jpg"
 	end
 
-	def getUserGroups
-		groups = []
-		if user_signed_in?
-			groups.concat(current_user.groups.all)
-		end
-
-		if params[:id]
-			viewing_group = Group.find_by_key(params[:id])
-			if !groups.include? viewing_group
-				groups << viewing_group
-			end
-		end
-
-		return groups
-	end
-
 	def gaware_new_meme_path
 		if params[:group_id]
 			group = Group.find_by_key params[:group_id]
