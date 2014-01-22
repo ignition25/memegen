@@ -45,13 +45,6 @@ body {
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
-@media (min-width: 1200px) {
-  .container {
-    max-width: 90%;
-    width: auto;
-  }
-}
-
 .container .credit {
   margin: 10px 0 0 0;
   color: #666666 !important;
@@ -139,36 +132,41 @@ a.nav-button {
   margin: 15px 15px 15px 0;
 }
 
-@media (min-width: 1441px) {
+.memes-container {
   .meme {
-    max-width: 17%;
-    margin: 0 2.597402597% 2.597402597% 0;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto 40px auto;
+  }
+
+  .meme-image {
+    display: block;
+    margin: auto;
   }
 }
 
-@media (max-width: 1440px) {
-  .meme {
-    max-width: 21.644295302%;
-    margin: 0 2.684563758% 4.684563758% 0; 
+@media (min-width: 768px) {
+  .container {
+    max-width: 90%;
+    width: auto;
   }
-}
 
-@media (max-width: 768px) {
   .memes-container {
-
     .meme {
-      max-width: 100%;
-      display: block;
-      margin: 0 auto 40px auto;
+      max-width: 21.644295302%;
+      margin: 0 2.684563758% 4.684563758% 0;
+      display: inline-block; 
     }
-
-    .meme-image {
-      display: block;
-      margin: auto;
-    }
-
   }
+}
 
+@media (min-width: 1441px) {
+  .memes-container {
+    .meme {
+      max-width: 17%;
+      margin: 0 2.597402597% 2.597402597% 0;
+    }
+  }
 }
 
 .left-nav {
