@@ -21,25 +21,27 @@ function init() {
 	
 	// Just check for one canvas, because either they're all on the page or they're not.
 	if (imageCanvas != null) {
+		// Init contexts.
 		imageContext = imageCanvas.getContext('2d');
 		topTextContext = topTextCanvas.getContext('2d');
 		bottomTextContext = bottomTextCanvas.getContext('2d');
 	}
 
-	// imageObj.crossOrigin = '';
-	console.log($(imageObj));
-
+	// User selects a template.
 	$('.template').click(function(){
 		$('#template-name').text($(this).attr('title'));
 
 		// CORS workaround.
 		uncachedSrc = this.src + "?_";
 		
+		// First time selected only.
 		if (imageObj.src != uncachedSrc) {
 			imageContext.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
-			imageObj.src = uncachedSrc;	
+			imageObj.src = uncachedSrc;
+			checkMimeType(uncachedSrc);
+			// TODO(ignition25): Fix the following block, it is throwing an undefined error.
 			if ($("#user-uploaded-img").src.length > 0) {
-				resetFileInput();				
+				resetFileInput();
 			}
 		}
 	});
@@ -145,13 +147,10 @@ function init() {
 	
 }
 
-// For turbolinks.
-// $(window).bind('page:change', init);
-
 $(document).ready(init);
 
 imageObj.onload = function() {
-//	this.setAttribute('crossOrigin', 'anonymous');
+	// Check that the image is within the allowed dimensions.
 	if (checkImageDimensions(this) == false) {
 		return;
 	}
@@ -331,4 +330,29 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, orientation) {
 	}
 	context.fillText(line, x, y);
 	context.strokeText(line, x, y);
+}
+
+function animateGif() {
+	console.log("Animated gif is running.")
+	imageContext.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
+	imageContext.drawImage($("#animated-gif").get(0), 0, 0);
+	webkitRequestAnimationFrame(arguments.callee, imageCanvas);
+}
+
+function checkMimeType(imageUrl) {
+	var request;
+	var isGif = false;
+	request = $.ajax({
+      type: "HEAD",
+      url: imageUrl,
+      success: function () {
+      	var type = request.getResponseHeader("Content-Type");
+	    isGif = (type == "image/gif");
+	    if (isGif) {
+	    	// Set img under canvas' URL.
+    		$("#animated-gif").attr("src", imageObj.src);
+	    	animateGif();
+	    }
+      }
+	});
 }
