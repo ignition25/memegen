@@ -153,10 +153,20 @@ a.nav-button {
   }
 }
 
-@media (max-width: 480px) {
-  .memes-container .meme {
-    max-width: 100%;
-    margin-bottom: 40px;
+@media (max-width: 768px) {
+  .memes-container {
+
+    .meme {
+      max-width: 100%;
+      display: block;
+      margin: 0 auto 40px auto;
+    }
+
+    .meme-image {
+      display: block;
+      margin: auto;
+    }
+
   }
 
 }
