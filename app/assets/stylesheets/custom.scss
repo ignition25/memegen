@@ -45,10 +45,13 @@ body {
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
-.container {
-  max-width: 90%;
-  width: auto;
+@media (min-width: 1200px) {
+  .container {
+    max-width: 90%;
+    width: auto;
+  }
 }
+
 .container .credit {
   margin: 10px 0 0 0;
   color: #666666 !important;
