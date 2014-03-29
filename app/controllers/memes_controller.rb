@@ -1,4 +1,5 @@
 require 'RMagick'
+require 'open-uri'
 
 class MemesController < ApplicationController
   before_action :check_meme_destroy_permission, only: [:destroy]
@@ -50,21 +51,28 @@ class MemesController < ApplicationController
     if user_signed_in?
       @meme.user_id = current_user.id
     end
-    
-    if !params[:images][:bg].empty?
+
+    if !params[:images][:bg_url].empty?
       # Set result to background image.
-      result = Magick::Image.read_inline(params[:images][:bg]).first
-      result.format = "JPEG"
+      #urlImage = open("http://www.changethethought.com/wp-content/tumblr_ljm3m8dfun1qzt4vjo1_500.gif")
+      urlImage = File.open(Rails.root.join('app', 'assets', 'images', 'templates', params[:images][:bg_url]))
+      result = Magick::ImageList.new
+      result.from_blob(urlImage.read)
+      #result = Magick::Image.read_inline(params[:images][:bg]).first
     end
 
     if !params[:images][:top].empty?
       image_top = Magick::Image.read_inline(params[:images][:top]).first
-      result = result.composite!(image_top, Magick::CenterGravity, Magick::OverCompositeOp)
+      result.each do |frame|
+        frame.composite!(image_top, Magick::CenterGravity, Magick::OverCompositeOp)
+      end
     end
 
     if !params[:images][:bottom].empty?
       image_bottom = Magick::Image.read_inline(params[:images][:bottom]).first
-      result = result.composite!(image_bottom, Magick::CenterGravity, Magick::OverCompositeOp)
+      result.each do |frame|
+        frame.composite!(image_bottom, Magick::CenterGravity, Magick::OverCompositeOp)
+      end
     end
 
     respond_to do |format|

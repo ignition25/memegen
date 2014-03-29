@@ -4,6 +4,8 @@ var BOTTOM = 1;
 var imageCanvas, topTextCanvas, bottomTextCanvas, imageContext, topTextContext, bottomTextContext;
 var imageObj = new Image();
 
+var bgImageType;
+
 // Add callback option to popover.
 var tmp = $.fn.popover.Constructor.prototype.show;
 $.fn.popover.Constructor.prototype.show = function () {
@@ -38,7 +40,6 @@ function init() {
 		if (imageObj.src != uncachedSrc) {
 			imageContext.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
 			imageObj.src = uncachedSrc;
-			checkMimeType(uncachedSrc);
 			// TODO(ignition25): Fix the following block, it is throwing an undefined error.
 			if ($("#user-uploaded-img").src.length > 0) {
 				resetFileInput();
@@ -159,7 +160,10 @@ imageObj.onload = function() {
 	drawText(bottomTextContext);
 	drawText(topTextContext);
 	var base64Image = imageCanvas.toDataURL("image/png");
+	console.log(base64Image);
 	$('#images_bg').val(base64Image.substr(base64Image.indexOf(',')));
+	$('#images_bg_url').val(this.src.substr(this.src.lastIndexOf('/') + 1).replace("?_", ""));
+	checkMimeType(uncachedSrc);
 };
 
 
@@ -335,8 +339,6 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, orientation) {
 function animateGif() {
 	console.log("Animated gif is running.")
 	imageContext.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
-	imageContext.drawImage($("#animated-gif").get(0), 0, 0);
-	webkitRequestAnimationFrame(arguments.callee, imageCanvas);
 }
 
 function checkMimeType(imageUrl) {
@@ -346,12 +348,19 @@ function checkMimeType(imageUrl) {
       type: "HEAD",
       url: imageUrl,
       success: function () {
-      	var type = request.getResponseHeader("Content-Type");
-	    isGif = (type == "image/gif");
+      	var bgImageMimeType = request.getResponseHeader("Content-Type");
+      	bgImageType = bgImageMimeType.replace("image/", "")
+	    isGif = (bgImageType == "gif");
 	    if (isGif) {
 	    	// Set img under canvas' URL.
     		$("#animated-gif").attr("src", imageObj.src);
+    		$("#animated-gif").attr("width", imageObj.width);
+    		$("#animated-gif").attr("height", imageObj.height);
 	    	animateGif();
+	    } else {
+			$("#animated-gif").attr("src", "");
+			$("#animated-gif").attr("width", "0");
+			$("#animated-gif").attr("height", "0");
 	    }
       }
 	});
